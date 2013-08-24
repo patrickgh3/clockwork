@@ -12,17 +12,19 @@ package
 	public class Player extends Entity
 	{
 		public var velocity:Point = new Point();
-		
 		private var onGround:Boolean = true;
+		private var levelmask:Array;
 		
 		private var grav:Number = 0.1;
 		private var runSpeed:Number = 1;
-		private var jumpSpeed:Number = 1.5;
+		private var jumpSpeed:Number = 2;
 		
 		public function Player(x:int, y:int) 
 		{
 			super(x, y);
 			graphic = Image.createRect(16, 16, 0xff0000);
+			width = height = 16;
+			levelmask = LevelData.levelmask;
 		}
 		
 		override public function update():void
@@ -37,7 +39,11 @@ package
 			else if (left && !right) velocity.x = -runSpeed;
 			else velocity.x = 0;
 			velocity.y += grav;
-			if (jump && onGround) velocity.y = -jumpSpeed;
+			if (jump && onGround)
+			{
+				velocity.y = -jumpSpeed;
+				onGround = false;
+			}
 			
 			/* Movement */
 			for (var i:int = 0; i < Math.abs(velocity.x); i++)
@@ -45,7 +51,7 @@ package
 				var diff:Number = Math.min(1, Math.abs(velocity.x) - i) * sign(velocity.x);
 				x += diff;
 				
-				var collision:Boolean = false;
+				var collision:Boolean = collidelevelmask();
 				if (collision)
 				{
 					x -= diff;
@@ -53,20 +59,33 @@ package
 			}
 			for (i = 0; i < Math.abs(velocity.y); i++)
 			{
-				var diff:Number = Math.min(1, Math.abs(velocity.y) - i) * sign(velocity.y);
+				diff = Math.min(1, Math.abs(velocity.y) - i) * sign(velocity.y);
 				y += diff;
 				
-				var collision:Boolean = false;
+				collision = collidelevelmask();
 				if (collision)
 				{
 					y -= diff;
+					if (velocity.y > 0) onGround = true;
+					velocity.y = 0;
 				}
 			}
-			if (y >= 64)
-			{
-				y = 64;
-				velocity.y = 0;
-			}
+			if ((i != 0 && velocity.y != 0) || (i == 0 && !onGround)) onGround = false;
+		}
+		
+		private function collidelevelmask():Boolean
+		{
+			var x1:int = int(x / 16);
+			var x2:int = int((x + width - 1) / 16);
+			var y1:int = int(y / 16);
+			var y2:int = int((y + height - 1) / 16);
+			if (x < 0) x1 = -1;
+			if (y < 0) y1 = -1;
+				
+			return levelmask[x1][y1] == 1 ||
+				   levelmask[x1][y2] == 1 ||
+				   levelmask[x2][y1] == 1 ||
+				   levelmask[x2][y2] == 1;
 		}
 		
 		private function sign(x:Number):Number

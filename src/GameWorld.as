@@ -15,9 +15,8 @@ package
 		
 		public function GameWorld() 
 		{
-			Text.size = 8;
-			add(new Entity(16, 16, new Text("Hello world :P")));
 			player = new Player(16, 16);
+			for (var i:int = 0; i < LevelData.tiles.length; i++) add(LevelData.tiles[i]);
 			add(player);
 		}
 		
