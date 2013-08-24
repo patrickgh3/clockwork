@@ -53,6 +53,14 @@ package
 			{
 				actors.push(new MovingBlock(node.@x, node.@y, node.@xdistance, node.@ydistance));
 			}
+			
+			for each (node in xml.Entities.PlayerStart)
+			{
+				GameWorld.spawnx = node.@x;
+				GameWorld.spawnx += 3;
+				GameWorld.spawny = node.@y;
+				GameWorld.spawny += 3;
+			}
 		}
 		
 	}

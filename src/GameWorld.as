@@ -1,5 +1,6 @@
 package  
 {
+	import Entities.BlackFade;
 	import Entities.Clock;
 	import Entities.ClockHand;
 	import Entities.Grip;
@@ -20,13 +21,18 @@ package
 	{
 		public var player:Player;
 		private var levelmask:Array;
-		private var clock:Clock;
+		private var blackFade:BlackFade;
 		public static var time:int = 0;
 		public static const endtime:int = 600;
 		public static var timedirection:int = time_forward;
 		public static const time_forward:int = 1;
 		public static const time_backward:int = 2;
+		public static const time_stopped:int = 3;
 		public static var playersprite:PlayerSprite;
+		public static var spawnx:int;
+		public static var spawny:int;
+		private var clockcount:int = -1;
+		private var clocktime:int = 120;
 		
 		public function GameWorld() 
 		{
@@ -43,10 +49,12 @@ package
 				if (LevelData.actors[i] is Grip) grips.push(LevelData.actors[i]);
 				else if (LevelData.actors[i] is MovingBlock) movingblocks.push(LevelData.actors[i]);
 			}
-			player = new Player(64, 64, grips, movingblocks);
+			player = new Player(spawnx, spawny, grips, movingblocks);
 			add(player);
 			playersprite = new PlayerSprite(player);
 			add(playersprite);
+			blackFade = new BlackFade();
+			
 			//add(new TimeDisplay(0, 0));
 			Text.size = 8;
 			var e:Entity = new Entity(0, 0, new Text("Right, left to move"));
@@ -62,25 +70,56 @@ package
 		
 		override public function update():void
 		{
+			if (clockcount != -1)
+			{
+				clockcount++;
+				if (clockcount == clocktime)
+				{
+					clockcount = -1;
+					addBlackFade();
+				}
+			}
 			if (timedirection == time_forward && time < 600)
 			{
 				time++;
 				if (time == 600)
 				{
+					/*
 					Text.size = 8;
 					var f:Entity = new Entity(32, 32, new Text("Game over not implemented yet ;)"))
 					f.graphic.scrollX = f.graphic.scrollY = 0;
-					add(f);
+					add(f);*/
+					player.frozen = true;
+					timedirection = time_stopped;
+					clockcount = 0;
 				}
 			}
 			else if (timedirection == time_backward && time > 0)
 			{
-				time -= 2;
-				if (time < 0) time = 0;
+				time -= 3;
+				if (time < 3) time = 0;
 			}
 			super.update();
 			FP.camera.x = Math.max(0, Math.min(LevelData.width * 16 - Main.width, player.x + player.width / 2 - Main.width / 2));
 			FP.camera.y = Math.max(0, Math.min(LevelData.height * 16 - Main.height, player.y + player.width / 2 - 16 - Main.height / 2));
+		}
+		
+		public function addBlackFade():void
+		{
+			add(blackFade);
+			remove(player);
+			player.frozen = true;
+			timedirection = time_stopped;
+		}
+		
+		public function addPlayer():void
+		{
+			add(player);
+			player.x = spawnx;
+			player.y = spawny;
+			time = 0;
+			player.frozen = false;
+			timedirection = time_forward;
 		}
 		
 	}

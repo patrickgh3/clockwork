@@ -5,6 +5,7 @@ package
 	import Entities.PlayerSprite;
 	import flash.geom.Point;
 	import net.flashpunk.Entity;
+	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
@@ -22,7 +23,8 @@ package
 		public var turning:Boolean = false;
 		private var currentgrip:Grip;
 		private var currentmovingblock:MovingBlock;
-		private var sprite:PlayerSprite;
+		public var sprite:PlayerSprite;
+		public var frozen:Boolean = false;
 		
 		private var grav:Number = 0.1;
 		private var runSpeed:Number = 1;
@@ -40,6 +42,7 @@ package
 		
 		override public function update():void
 		{
+			if (frozen) return;
 			if (sprite == null) sprite = GameWorld.playersprite;
 			var right:Boolean = Input.check(Key.RIGHT);
 			var left:Boolean = Input.check(Key.LEFT);
@@ -108,6 +111,11 @@ package
 			sprite.x = x - 12;
 			sprite.y = y - 8;
 			
+			if (y > 320)
+			{
+				(GameWorld)(FP.world).addBlackFade();
+			}
+			
 			/* Turning grip */
 			if (action && !turning && onGround)
 			{
@@ -128,6 +136,8 @@ package
 					else x = g.x + 13;
 					sprite.startTurning();
 					sprite.walking = false;
+					GameWorld.spawnx = g.x;
+					GameWorld.spawny = g.y + 4;
 				}
 			}
 			else if (!action && turning)
