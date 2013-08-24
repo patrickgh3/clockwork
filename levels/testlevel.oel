@@ -35,9 +35,7 @@
     <tile x="15" y="7" tx="0" ty="0" />
     <tile x="16" y="7" tx="0" ty="0" />
     <tile x="17" y="8" tx="0" ty="0" />
-    <tile x="18" y="8" tx="0" ty="0" />
     <tile x="19" y="8" tx="0" ty="0" />
-    <tile x="20" y="8" tx="0" ty="0" />
     <tile x="23" y="8" tx="0" ty="0" />
     <tile x="26" y="8" tx="0" ty="0" />
     <tile x="27" y="8" tx="0" ty="0" />
@@ -54,4 +52,9 @@
     <tile x="38" y="7" tx="0" ty="0" />
     <tile x="39" y="8" tx="0" ty="0" />
   </Tiles>
+  <Entities>
+    <Grip id="0" x="160" y="96" />
+    <Grip id="1" x="304" y="112" />
+    <Grip id="2" x="464" y="112" />
+  </Entities>
 </level>

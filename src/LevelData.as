@@ -1,5 +1,6 @@
 package  
 {
+	import Entities.Grip;
 	import net.flashpunk.FP;
 	
 	/**
@@ -10,7 +11,7 @@ package
 		[Embed(source = "../levels/testlevel.oel", mimeType = "application/octet-stream")]
 		public static const testlevel:Class;
 		
-		public static var tiles:Array = new Array();
+		public static var actors:Array = new Array();
 		public static var levelmask:Array = new Array();
 		public static var width:int;
 		public static var height:int;
@@ -37,11 +38,15 @@ package
 				var y:int = node.@y;
 				var tx:int = node.@tx;
 				var ty:int = node.@ty;
-				tiles.push(new Tile(x * 16, y * 16, tx, ty));
+				actors.push(new Tile(x * 16, y * 16, tx, ty));
 				levelmask[x][y] = 1;
 			}
+			actors.reverse();
 			
-			tiles.reverse();
+			for each (node in xml.Entities.Grip)
+			{
+				actors.push(new Grip(node.@x, node.@y));
+			}
 		}
 		
 	}
