@@ -1,6 +1,7 @@
 package  
 {
 	import Entities.Grip;
+	import Entities.MovingBlock;
 	import Entities.PlayerSprite;
 	import flash.geom.Point;
 	import net.flashpunk.Entity;
@@ -17,21 +18,24 @@ package
 		private var onGround:Boolean = true;
 		private var levelmask:Array;
 		private var grips:Array;
+		private var movingblocks:Array;
 		public var turning:Boolean = false;
 		private var currentgrip:Grip;
+		private var currentmovingblock:MovingBlock;
 		private var sprite:PlayerSprite;
 		
 		private var grav:Number = 0.1;
 		private var runSpeed:Number = 1;
 		private var jumpSpeed:Number = 1.85;
 		
-		public function Player(x:int, y:int, grips:Array) 
+		public function Player(x:int, y:int, grips:Array, movingblocks:Array) 
 		{
 			super(x, y);
 			width = 9;
 			height = 12;
 			levelmask = LevelData.levelmask;
 			this.grips = grips;
+			this.movingblocks = movingblocks;
 		}
 		
 		override public function update():void
@@ -52,6 +56,8 @@ package
 			{
 				velocity.y = -jumpSpeed;
 				onGround = false;
+				currentmovingblock = null;
+				y--;
 			}
 			
 			/* Movement */
@@ -61,25 +67,46 @@ package
 				x += diff;
 				
 				var collision:Boolean = collidelevelmask();
-				if (collision)
+				var blockcollision:MovingBlock = collidemovingblocks();
+				if ((collision || blockcollision) && !currentmovingblock)
 				{
 					x -= diff;
 				}
 			}
-			for (i = 0; i < Math.abs(velocity.y); i++)
+			if (currentmovingblock != null &&
+				(x > currentmovingblock.x + currentmovingblock.width
+				|| x + width < currentmovingblock.x)) currentmovingblock = null;
+			if (currentmovingblock)
+			{
+				y = currentmovingblock.y - 11;
+				velocity.y = 0;
+				x += currentmovingblock.getXSpeed();
+			}
+			else for (i = 0; i < Math.abs(velocity.y); i++)
 			{
 				diff = Math.min(1, Math.abs(velocity.y) - i) * sign(velocity.y);
 				y += diff;
 				
 				collision = collidelevelmask();
-				if (collision)
+				blockcollision = collidemovingblocks();
+				if (blockcollision && velocity.y > 0)
+				{
+					onGround = true;
+					currentmovingblock = blockcollision;
+					x = (Number)((int)(x)) + (currentmovingblock.x - (Number)((int)(currentmovingblock.x)));
+					velocity.y = 0;
+				}
+				if (collision || (blockcollision && velocity.y < 0))
 				{
 					y -= diff;
 					if (velocity.y > 0) onGround = true;
 					velocity.y = 0;
 				}
 			}
-			if ((i != 0 && velocity.y != 0) || (i == 0 && !onGround)) onGround = false;
+			
+			if (!currentmovingblock && ((i != 0 && velocity.y != 0) || (i == 0 && !onGround))) onGround = false;
+			sprite.x = x - 12;
+			sprite.y = y - 8;
 			
 			/* Turning grip */
 			if (action && !turning && onGround)
@@ -131,6 +158,20 @@ package
 				   levelmask[x1][y2] == 1 ||
 				   levelmask[x2][y1] == 1 ||
 				   levelmask[x2][y2] == 1;
+		}
+		
+		private function collidemovingblocks():MovingBlock
+		{
+			for (var i:int = 0; i < movingblocks.length; i++)
+			{
+				var b:MovingBlock = movingblocks[i];
+				if (x > b.x + b.width
+					|| x + width < b.x
+					|| y > b.y + b.height
+					|| y + height < b.y) continue;
+				return b;
+			}
+			return null;
 		}
 		
 		private function sign(x:Number):Number

@@ -1,6 +1,7 @@
 package  
 {
 	import Entities.Grip;
+	import Entities.MovingBlock;
 	import net.flashpunk.FP;
 	
 	/**
@@ -46,6 +47,11 @@ package
 			for each (node in xml.Entities.Grip)
 			{
 				actors.push(new Grip(node.@x, node.@y));
+			}
+			
+			for each (node in xml.Entities.MovingBlock)
+			{
+				actors.push(new MovingBlock(node.@x, node.@y, node.@xdistance, node.@ydistance));
 			}
 		}
 		
