@@ -17,13 +17,13 @@ package
 		
 		private var grav:Number = 0.1;
 		private var runSpeed:Number = 1;
-		private var jumpSpeed:Number = 2;
+		private var jumpSpeed:Number = 1.85;
 		
 		public function Player(x:int, y:int) 
 		{
 			super(x, y);
-			graphic = Image.createRect(16, 16, 0xff0000);
-			width = height = 16;
+			width = 9;
+			height = 12;
 			levelmask = LevelData.levelmask;
 		}
 		
@@ -91,6 +91,11 @@ package
 		private function sign(x:Number):Number
 		{
 			return x / Math.abs(x);
+		}
+		
+		public function isOnGround():Boolean
+		{
+			return onGround;
 		}
 		
 	}

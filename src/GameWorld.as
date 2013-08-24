@@ -1,5 +1,6 @@
 package  
 {
+	import Entities.PlayerSprite;
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Text;
@@ -18,6 +19,7 @@ package
 			player = new Player(16, 16);
 			for (var i:int = 0; i < LevelData.tiles.length; i++) add(LevelData.tiles[i]);
 			add(player);
+			add(new PlayerSprite(player));
 		}
 		
 		override public function update():void
