@@ -31,7 +31,7 @@ package
 		{
 			var right:Boolean = Input.check(Key.RIGHT);
 			var left:Boolean = Input.check(Key.LEFT);
-			var jump:Boolean = Input.pressed(Key.Z);
+			var jump:Boolean = Input.pressed(Key.Z) || Input.pressed(Key.UP);
 			var action:Boolean = Input.pressed(Key.X);
 			
 			/* Calculate velocity */

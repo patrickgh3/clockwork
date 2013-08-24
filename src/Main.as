@@ -11,6 +11,8 @@ package
 	public class Main extends Engine
 	{
 		private var gw:GameWorld;
+		public static var width:Number = 224;
+		public static var height:Number = 160;
 		
 		public function Main() 
 		{
