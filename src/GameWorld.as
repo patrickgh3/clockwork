@@ -1,6 +1,7 @@
 package  
 {
 	import Entities.Clock;
+	import Entities.ClockHand;
 	import Entities.Grip;
 	import Entities.PlayerSprite;
 	import Entities.Star;
@@ -30,8 +31,8 @@ package
 		{
 			FP.screen.color = 0x1D1A36;
 			for (var i:int = 0; i < 12; i++) add(new Star(i * Main.width / 12 + 10, Math.random() * (Main.height - 40)));
-			clock = new Clock(80, 0);
-			add(clock);
+			add(new Clock(80, 0));
+			add(new ClockHand(139, 77));
 			
 			var grips:Array = new Array();
 			for (i; i < LevelData.actors.length; i++)
@@ -43,7 +44,7 @@ package
 			add(player);
 			playersprite = new PlayerSprite(player);
 			add(playersprite);
-			add(new TimeDisplay(0, 0));
+			//add(new TimeDisplay(0, 0));
 		}
 		
 		override public function update():void
@@ -55,7 +56,8 @@ package
 			}
 			else if (timedirection == time_backward && time > 0)
 			{
-				time--;
+				time -= 2;
+				if (time < 0) time = 0;
 			}
 			super.update();
 			FP.camera.x = Math.max(0, Math.min(LevelData.width * 16 - Main.width, player.x + player.width / 2 - Main.width / 2));
