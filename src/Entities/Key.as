@@ -70,8 +70,8 @@ package Entities
 			if (special == 1 && FP.world.camera.x + Main.width >= x) special = 2;
 			if (special == 2)
 			{
-				x = -pushed + startx + 96 * GameWorld.time / 600;
-				if (x > startx + 70)
+				x = -pushed + startx + 80 * GameWorld.time / 600;
+				if (x > startx + 54)
 				{
 					pushed++;
 					if (pushed == width) special = 3;
@@ -91,6 +91,8 @@ package Entities
 		
 		public function reset():void
 		{
+			used = false;
+			sprite.alpha = 1;
 			if (special != 0)
 			{
 				special = 1;

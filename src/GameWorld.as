@@ -37,7 +37,7 @@ package
 		public function GameWorld() 
 		{
 			FP.screen.color = 0x1D1A36;
-			for (var i:int = 0; i < 12; i++) add(new Star(i * Main.width / 12 + 10, Math.random() * (Main.height - 40)));
+			for (var i:int = 0; i < 12; i++) add(new Star(i * Main.width / 12 + 10, Math.random() * (Main.height - 50) + 10));
 			add(new Clock(85, 0));
 			add(new ClockHand(144, 77));
 			
@@ -61,20 +61,10 @@ package
 			add(player);
 			playersprite = new PlayerSprite(player);
 			add(playersprite);
-			blackFade = new BlackFade();
+			blackFade = new BlackFade(BlackFade.fadeTime);
+			add(blackFade);
 			
 			//add(new TimeDisplay(0, 0));
-			
-			Text.size = 8;
-			var e:Entity = new Entity(0, 0, new Text("Right, left to move"));
-			e.graphic.scrollX = e.graphic.scrollY = 0;
-			add(e);
-			e = new Entity(0, 8, new Text("Z, Up to jump"));
-			e.graphic.scrollX = e.graphic.scrollY = 0;
-			add(e);
-			e = new Entity(0, 16, new Text("Hold X to turn gears"));
-			e.graphic.scrollX = e.graphic.scrollY = 0;
-			add(e);
 		}
 		
 		override public function update():void
@@ -132,12 +122,7 @@ package
 			for (var i:int = 0; i < LevelData.actors.length; i++)
 			{
 				if (LevelData.actors[i] is Tile) LevelData.actors[i].lock();
-				else if (LevelData.actors[i] is Key)
-				{
-					LevelData.actors[i].used = false;
-					LevelData.actors[i].sprite.alpha = 1;
-					LevelData.actors[i].reset();
-				}
+				else if (LevelData.actors[i] is Key) LevelData.actors[i].reset();
 			}
 		}
 		

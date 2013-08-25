@@ -62,6 +62,23 @@
     </Tileset>
   </Tilesets>
   <EntityDefinitions>
+    <EntityDefinition Name="HintTrigger" Limit="-1" ResizableX="true" ResizableY="true" Rotatable="false" RotateIncrement="15">
+      <Size>
+        <Width>16</Width>
+        <Height>16</Height>
+      </Size>
+      <Origin>
+        <X>0</X>
+        <Y>0</Y>
+      </Origin>
+      <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
+        <RectColor A="255" R="255" G="72" B="255" />
+      </ImageDefinition>
+      <ValueDefinitions>
+        <ValueDefinition xsi:type="StringValueDefinition" Name="text" Default="Hi, I'm a hint! :D&#xD;&#xA;And this is line 2 :o" MaxChars="-1" MultiLine="true" />
+      </ValueDefinitions>
+      <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
+    </EntityDefinition>
     <EntityDefinition Name="Grip" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
         <Width>16</Width>
@@ -87,7 +104,7 @@
         <Y>0</Y>
       </Origin>
       <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
-        <RectColor A="255" R="255" G="216" B="81" />
+        <RectColor A="255" R="255" G="172" B="81" />
       </ImageDefinition>
       <ValueDefinitions>
         <ValueDefinition xsi:type="IntValueDefinition" Name="xdistance" Default="0" Min="-1000" Max="1000" ShowSlider="false" />

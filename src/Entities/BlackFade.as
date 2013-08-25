@@ -10,15 +10,16 @@ package Entities
 	public class BlackFade extends Entity
 	{
 		private var image:Image;
-		private static const fadeTime:int = 40;
+		public static const fadeTime:int = 40;
 		private var count:int = 0;
 		
-		public function BlackFade() 
+		public function BlackFade(count:int = 0) 
 		{
 			super(0, 0);
 			graphic = image = Image.createRect(Main.width, Main.height, 0x000000);
 			graphic.scrollX = graphic.scrollY = 0;
 			image.alpha = 0;
+			this.count = count;
 		}
 		
 		override public function update():void

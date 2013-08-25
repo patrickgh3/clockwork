@@ -16,7 +16,6 @@
     <tile x="6" y="14" tx="1" ty="0" />
     <tile x="7" y="13" tx="0" ty="0" />
     <tile x="8" y="13" tx="0" ty="0" />
-    <tile x="9" y="12" tx="1" ty="0" />
     <tile x="9" y="13" tx="0" ty="0" />
     <tile x="9" y="14" tx="2" ty="0" />
     <tile x="10" y="13" tx="0" ty="0" />
@@ -122,8 +121,10 @@
     <tile x="61" y="11" tx="0" ty="0" />
     <tile x="61" y="12" tx="0" ty="0" />
     <tile x="61" y="13" tx="2" ty="0" />
+    <tile x="61" y="16" tx="2" ty="0" />
     <tile x="62" y="10" tx="2" ty="0" />
     <tile x="62" y="14" tx="0" ty="0" />
+    <tile x="62" y="16" tx="2" ty="0" />
     <tile x="63" y="10" tx="0" ty="0" />
     <tile x="63" y="15" tx="0" ty="0" />
     <tile x="63" y="16" tx="1" ty="0" />
@@ -156,12 +157,15 @@
     <tile x="78" y="11" tx="0" ty="0" />
     <tile x="79" y="12" tx="1" ty="0" />
     <tile x="80" y="13" tx="1" ty="0" />
+    <tile x="82" y="13" tx="0" ty="0" />
+    <tile x="82" y="14" tx="1" ty="0" />
+    <tile x="83" y="6" tx="0" ty="0" />
+    <tile x="83" y="7" tx="0" ty="0" />
     <tile x="83" y="13" tx="0" ty="0" />
-    <tile x="83" y="14" tx="1" ty="0" />
-    <tile x="84" y="6" tx="0" ty="0" />
-    <tile x="84" y="7" tx="0" ty="0" />
+    <tile x="84" y="7" tx="1" ty="0" />
     <tile x="84" y="12" tx="2" ty="0" />
     <tile x="85" y="7" tx="2" ty="0" />
+    <tile x="85" y="8" tx="1" ty="0" />
     <tile x="85" y="11" tx="1" ty="0" />
     <tile x="86" y="7" tx="0" ty="0" />
     <tile x="86" y="8" tx="1" ty="0" />
@@ -188,7 +192,6 @@
     <tile x="96" y="8" tx="1" ty="0" />
     <tile x="98" y="9" tx="2" ty="0" />
     <tile x="99" y="9" tx="0" ty="0" />
-    <tile x="99" y="14" tx="0" ty="0" />
     <tile x="100" y="9" tx="0" ty="0" />
     <tile x="100" y="14" tx="0" ty="0" />
     <tile x="101" y="8" tx="1" ty="0" />
@@ -196,13 +199,15 @@
     <tile x="101" y="14" tx="0" ty="0" />
     <tile x="102" y="10" tx="1" ty="0" />
     <tile x="102" y="11" tx="0" ty="0" />
-    <tile x="102" y="13" tx="1" ty="0" />
+    <tile x="102" y="14" tx="1" ty="0" />
     <tile x="103" y="10" tx="0" ty="0" />
     <tile x="103" y="11" tx="0" ty="0" />
-    <tile x="103" y="12" tx="0" ty="0" />
+    <tile x="103" y="13" tx="1" ty="0" />
     <tile x="104" y="10" tx="0" ty="0" />
+    <tile x="104" y="11" tx="1" ty="0" />
     <tile x="105" y="10" tx="1" ty="0" />
     <tile x="105" y="11" tx="2" ty="0" />
+    <tile x="105" y="12" tx="1" ty="0" />
     <tile x="108" y="10" tx="1" ty="0" />
     <tile x="109" y="10" tx="2" ty="0" />
     <tile x="111" y="9" tx="2" ty="0" />
@@ -246,20 +251,23 @@
     <Grip id="3" x="608" y="96" />
     <Grip id="7" x="720" y="144" />
     <Grip id="4" x="864" y="144" />
-    <Grip id="5" x="1008" y="144" />
     <MovingBlock id="6" x="736" y="176" xdistance="128" ydistance="0" ricketdirection="4" />
     <MovingBlock id="8" x="928" y="208" xdistance="0" ydistance="-96" ricketdirection="2" />
-    <Grip id="9" x="112" y="192" />
     <Grip id="11" x="1232" y="144" />
     <Key id="12" x="1072" y="224" special="0" />
-    <MovingBlock id="10" x="1264" y="128" xdistance="96" ydistance="0" ricketdirection="3" />
+    <MovingBlock id="10" x="1264" y="128" xdistance="80" ydistance="0" ricketdirection="3" />
     <Key id="14" x="1264" y="112" special="1" />
-    <MovingBlock id="13" x="1568" y="208" xdistance="-80" ydistance="0" ricketdirection="4" />
-    <Grip id="15" x="1600" y="208" />
-    <Key id="16" x="1632" y="192" special="0" />
+    <MovingBlock id="13" x="1584" y="208" xdistance="-96" ydistance="0" ricketdirection="4" />
+    <Grip id="15" x="1616" y="208" />
+    <Key id="16" x="1648" y="192" special="0" />
     <Grip id="17" x="1664" y="144" />
     <Grip id="19" x="1424" y="144" />
     <Grip id="18" x="2080" y="144" />
-    <PlayerStart id="0" x="48" y="192" />
+    <PlayerStart id="0" x="864" y="128" />
+    <HintTrigger id="21" x="864" y="128" width="16" height="16" text="Don't let the clock strike twelve!&#xD;Move with the arrow keys." />
+    <HintTrigger id="20" x="128" y="192" width="16" height="16" text="Hold X to use your wrench." />
+    <Grip id="23" x="1008" y="144" />
+    <Grip id="5" x="128" y="192" />
+    <HintTrigger id="9" x="176" y="192" width="16" height="16" text="Use Z or up to jump." />
   </Entities>
 </level>

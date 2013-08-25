@@ -1,6 +1,7 @@
 package  
 {
 	import Entities.Grip;
+	import Entities.HintTrigger;
 	import Entities.Key;
 	import Entities.MovingBlock;
 	import Entities.Ricket;
@@ -75,6 +76,11 @@ package
 			for each (node in xml.Entities.Key)
 			{
 				actors.push(new Key(node.@x, node.@y, node.@special));
+			}
+			
+			for each (node in xml.Entities.HintTrigger)
+			{
+				actors.push(new HintTrigger(node.@x, node.@y, node.@width, node.@height, node.@text, node.@id));
 			}
 			
 			for each (node in xml.Entities.PlayerStart)
