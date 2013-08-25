@@ -2,6 +2,7 @@ package
 {
 	import Entities.Grip;
 	import Entities.MovingBlock;
+	import Entities.Ricket;
 	import net.flashpunk.FP;
 	
 	/**
@@ -13,6 +14,8 @@ package
 		public static const testlevel:Class;
 		
 		public static var actors:Array = new Array();
+		public static var rickets:Array = new Array();
+		public static var movingblocks:Array = new Array();
 		public static var levelmask:Array = new Array();
 		public static var width:int;
 		public static var height:int;
@@ -51,7 +54,9 @@ package
 			
 			for each (node in xml.Entities.MovingBlock)
 			{
-				actors.push(new MovingBlock(node.@x, node.@y, node.@xdistance, node.@ydistance));
+				var b:MovingBlock = new MovingBlock(node.@x, node.@y, node.@xdistance, node.@ydistance);
+				movingblocks.push(b);
+				rickets.push(new Ricket(b, node.@ricketdirection));
 			}
 			
 			for each (node in xml.Entities.PlayerStart)

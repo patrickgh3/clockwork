@@ -92,6 +92,7 @@
       <ValueDefinitions>
         <ValueDefinition xsi:type="IntValueDefinition" Name="xdistance" Default="0" Min="-1000" Max="1000" ShowSlider="false" />
         <ValueDefinition xsi:type="IntValueDefinition" Name="ydistance" Default="0" Min="-1000" Max="1000" ShowSlider="false" />
+        <ValueDefinition xsi:type="IntValueDefinition" Name="ricketdirection" Default="1" Min="1" Max="4" ShowSlider="false" />
       </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
     </EntityDefinition>

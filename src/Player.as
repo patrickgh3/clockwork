@@ -68,13 +68,14 @@ package
 			{
 				var diff:Number = Math.min(1, Math.abs(velocity.x) - i) * sign(velocity.x);
 				x += diff;
-				
+				if (currentmovingblock) y -= 2;
 				var collision:Boolean = collidelevelmask();
 				var blockcollision:MovingBlock = collidemovingblocks();
-				if ((collision || blockcollision) && !currentmovingblock)
+				if (collision || blockcollision)
 				{
 					x -= diff;
 				}
+				if (currentmovingblock) y += 2;
 			}
 			if (currentmovingblock != null &&
 				(x > currentmovingblock.x + currentmovingblock.width
@@ -114,7 +115,11 @@ package
 			if (y > 320)
 			{
 				(GameWorld)(FP.world).addBlackFade();
+				currentgrip = null;
+				currentmovingblock = null;
 			}
+			
+			while (collidelevelmask()) y--;
 			
 			/* Turning grip */
 			if (action && !turning && onGround)

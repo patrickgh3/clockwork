@@ -32,6 +32,7 @@ package Entities
 		
 		override public function update():void
 		{
+			
 			x = start.x + (GameWorld.time / 600) * (end.x - start.x);
 			y = start.y + (GameWorld.time / 600) * (end.y - start.y);
 			

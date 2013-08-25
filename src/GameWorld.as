@@ -41,15 +41,23 @@ package
 			add(new Clock(80, 0));
 			add(new ClockHand(139, 77));
 			
+			for (i = 0; i < LevelData.rickets.length; i++)
+			{
+				add(LevelData.rickets[i]);
+			}
+			
+			for (i = 0; i < LevelData.movingblocks.length; i++)
+			{
+				add(LevelData.movingblocks[i]);
+			}
+			
 			var grips:Array = new Array();
-			var movingblocks:Array = new Array();
-			for (i; i < LevelData.actors.length; i++)
+			for (i = 0; i < LevelData.actors.length; i++)
 			{
 				add(LevelData.actors[i]);
 				if (LevelData.actors[i] is Grip) grips.push(LevelData.actors[i]);
-				else if (LevelData.actors[i] is MovingBlock) movingblocks.push(LevelData.actors[i]);
 			}
-			player = new Player(spawnx, spawny, grips, movingblocks);
+			player = new Player(spawnx, spawny, grips, LevelData.movingblocks);
 			add(player);
 			playersprite = new PlayerSprite(player);
 			add(playersprite);

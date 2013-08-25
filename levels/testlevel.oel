@@ -98,16 +98,15 @@
     <tile x="45" y="12" tx="0" ty="0" />
     <tile x="45" y="13" tx="0" ty="0" />
     <tile x="46" y="10" tx="2" ty="0" />
-    <tile x="46" y="12" tx="0" ty="0" />
     <tile x="46" y="13" tx="1" ty="0" />
     <tile x="46" y="14" tx="1" ty="0" />
     <tile x="53" y="10" tx="2" ty="0" />
-    <tile x="53" y="12" tx="1" ty="0" />
-    <tile x="53" y="13" tx="1" ty="0" />
+    <tile x="53" y="13" tx="0" ty="0" />
+    <tile x="53" y="14" tx="1" ty="0" />
     <tile x="54" y="10" tx="0" ty="0" />
     <tile x="54" y="11" tx="0" ty="0" />
     <tile x="54" y="12" tx="0" ty="0" />
-    <tile x="54" y="13" tx="0" ty="0" />
+    <tile x="54" y="13" tx="2" ty="0" />
     <tile x="55" y="10" tx="1" ty="0" />
     <tile x="55" y="11" tx="0" ty="0" />
     <tile x="55" y="12" tx="0" ty="0" />
@@ -159,9 +158,9 @@
     <Grip id="7" x="720" y="144" />
     <Grip id="4" x="864" y="144" />
     <Grip id="5" x="992" y="144" />
-    <PlayerStart id="0" x="48" y="192" />
-    <MovingBlock id="6" x="736" y="176" xdistance="128" ydistance="0" />
-    <MovingBlock id="8" x="928" y="208" xdistance="0" ydistance="-96" />
+    <PlayerStart id="0" x="688" y="144" />
+    <MovingBlock id="6" x="736" y="176" xdistance="128" ydistance="0" ricketdirection="4" />
+    <MovingBlock id="8" x="928" y="208" xdistance="0" ydistance="-96" ricketdirection="2" />
     <Grip id="9" x="112" y="192" />
   </Entities>
 </level>
