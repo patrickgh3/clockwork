@@ -13,6 +13,7 @@ package
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Text;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.World;
 	
 	/**
@@ -20,6 +21,9 @@ package
 	 */
 	public class GameWorld extends World
 	{
+		[Embed(source = "/../assets/sound/bell.mp3")]
+		private static const bell:Class;
+		
 		public var player:Player;
 		private var blackFade:BlackFade;
 		public static var time:int = 0;
@@ -35,6 +39,7 @@ package
 		private var clocktime:int = 120;
 		public static var ticks:int = 0;
 		public var stopcountingticks:Boolean = false;
+		private var sfxBell:Sfx;
 		
 		public function GameWorld() 
 		{
@@ -66,6 +71,7 @@ package
 			add(playersprite);
 			blackFade = new BlackFade(BlackFade.fadeTime);
 			add(blackFade);
+			sfxBell = new Sfx(bell);
 		}
 		
 		override public function update():void
@@ -73,6 +79,8 @@ package
 			if (!stopcountingticks) ticks++;
 			if (clockcount != -1)
 			{
+				if (clockcount == 0) sfxBell.play(0.5);
+				else if (clockcount == clocktime / 2) sfxBell.play(0.5);
 				clockcount++;
 				if (clockcount == clocktime)
 				{

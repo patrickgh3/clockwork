@@ -3,6 +3,7 @@ package Entities
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.FP;
+	import net.flashpunk.Sfx;
 	
 	/**
 	 * SEEEEEEEEEEEEECRET
@@ -11,9 +12,12 @@ package Entities
 	{
 		[Embed(source = "/../assets/fish.png")]
 		private static const src:Class;
+		[Embed(source = "/../assets/sound/wrench.mp3")]
+		private static const sound:Class;
 		
 		private var player:Player;
 		public var used:Boolean = false;
+		private var sfx:Sfx;
 		
 		public function Fish(x:int, y:int) 
 		{
@@ -26,6 +30,7 @@ package Entities
 			graphic.y = -5;
 			width = 6;
 			height = 3;
+			sfx = new Sfx(sound);
 		}
 		
 		override public function update():void
@@ -38,6 +43,7 @@ package Entities
 				used = true;
 				(Image)(graphic).alpha = 0;
 				player.fish();
+				sfx.play(0.5);
 			}
 		}
 		

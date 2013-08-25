@@ -2,6 +2,7 @@ package Entities
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Spritemap;
+	import net.flashpunk.Sfx;
 	
 	/**
 	 * Animated graphic of the player.
@@ -10,6 +11,10 @@ package Entities
 	{
 		[Embed(source = "/../assets/player.png")]
 		private static const src:Class;
+		[Embed(source = "/../assets/sound/step.mp3")]
+		private static const step:Class;
+		[Embed(source = "/../assets/sound/jump.mp3")]
+		private static const jump:Class;
 		
 		private var sprite:Spritemap;
 		private var player:Player;
@@ -21,17 +26,25 @@ package Entities
 		public var holding:Boolean = false;
 		private var nojumpcount:int = nojumptime;
 		private var nojumptime:int = 15;
+		private var sfxStep:Sfx;
+		private var sfxJump:Sfx;
+		private var lastyvel:Number = 0;
 		
 		public function PlayerSprite(p:Player) 
 		{
 			super();
 			player = p;
 			graphic = sprite = new Spritemap(src, 32, 20);
+			sfxStep = new Sfx(step);
+			sfxJump = new Sfx(jump);
 		}
 		
 		override public function update():void
 		{
 			if (player.frozen) return;
+			
+			if (player.velocity.y == 0 && lastyvel > 1) playstep();
+			if (player.velocity.y < -1 && lastyvel >= 0) playjump();
 			
 			x = player.x - 12;
 			y = player.y - 8;
@@ -66,12 +79,16 @@ package Entities
 			/* Walking animation */
 			if (count != -1 && walking)
 			{
-				count++;
 				if (count == walkSpeed * 4) count = 0;
-				if (count == 0) sprite.setFrame(0, 1);
+				if (count == 0)
+				{
+					sprite.setFrame(0, 1);
+					playstep();
+				}
 				else if (count == walkSpeed) sprite.setFrame(1, 1);
 				else if (count == walkSpeed * 2) sprite.setFrame(0, 2);
 				else if (count == walkSpeed * 3) sprite.setFrame(1, 2);
+				count++;
 			}
 			else if (count != -1 && turning)
 			{
@@ -80,6 +97,7 @@ package Entities
 				if (count == 0) sprite.setFrame(1, 3);
 				else if (count == turnSpeed) sprite.setFrame(0, 3);
 			}
+			lastyvel = player.velocity.y;
 		}
 		
 		public function isFlipped():Boolean
@@ -105,6 +123,16 @@ package Entities
 		{
 			sprite.flipped = false;
 			sprite.setFrame(0, 4);
+		}
+		
+		private function playstep():void
+		{
+			sfxStep.play(0.5);
+		}
+		
+		private function playjump():void
+		{
+			sfxJump.play(0.5);
 		}
 		
 	}

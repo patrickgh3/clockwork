@@ -4,6 +4,7 @@ package Entities
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Spritemap;
+	import net.flashpunk.Sfx;
 	
 	/**
 	 * Key entitiy that the player picks up.
@@ -12,6 +13,8 @@ package Entities
 	{
 		[Embed(source = "/../assets/key.png")]
 		private static const src:Class;
+		[Embed(source = "/../assets/sound/wrench.mp3")]
+		private static const sound:Class;
 		
 		private var count:int = 0;
 		private var time1:int = 120;
@@ -25,6 +28,7 @@ package Entities
 		private var startx:int;
 		private var starty:int;
 		private var pushed:int = 0;
+		private var sfx:Sfx;
 		
 		public function Key(x:int, y:int, special:int) 
 		{
@@ -41,6 +45,7 @@ package Entities
 			this.special = special;
 			startx = x;
 			starty = y;
+			sfx = new Sfx(sound);
 		}
 		
 		override public function update():void
@@ -64,6 +69,7 @@ package Entities
 				used = true;
 				sprite.alpha = 0;
 				player.giveKey();
+				sfx.play(0.5);
 			}
 			
 			/* Physics */

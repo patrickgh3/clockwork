@@ -2,6 +2,7 @@ package Entities
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.graphics.Spritemap;
@@ -13,10 +14,13 @@ package Entities
 	{
 		[Embed(source = "/../assets/endgrip.png")]
 		private static const src:Class;
+		[Embed(source = "/../assets/sound/wrench.mp3")]
+		private static const sound:Class;
 		
 		private var count:int = -1;
 		private var player:Player;
 		private var sprite:Spritemap;
+		private var sfx:Sfx;
 		
 		public function EndGrip(x:int, y:int) 
 		{
@@ -28,6 +32,7 @@ package Entities
 			sprite.setFrame(0);
 			width = 32;
 			height = 16;
+			sfx = new Sfx(sound);
 		}
 		
 		override public function update():void
@@ -46,6 +51,7 @@ package Entities
 				{
 					sprite.setFrame(0, 2);
 					GameWorld.timedirection = GameWorld.time_stopped;
+					sfx.play(0.5);
 				}
 				else if (count == 150)
 				{
