@@ -25,6 +25,7 @@ package
 		private var currentmovingblock:MovingBlock;
 		public var sprite:PlayerSprite;
 		public var frozen:Boolean = false;
+		private var haskey:Boolean = false;
 		
 		private var grav:Number = 0.1;
 		private var runSpeed:Number = 1;
@@ -68,6 +69,12 @@ package
 			{
 				var diff:Number = Math.min(1, Math.abs(velocity.x) - i) * sign(velocity.x);
 				x += diff;
+				var lock:Tile = collideLock();
+				if (haskey && lock)
+				{
+					haskey = false;
+					lock.unlock();
+				}
 				if (currentmovingblock) y -= 2;
 				var collision:Boolean = collidelevelmask();
 				var blockcollision:MovingBlock = collidemovingblocks();
@@ -103,7 +110,10 @@ package
 				if (collision || (blockcollision && velocity.y < 0))
 				{
 					y -= diff;
-					if (velocity.y > 0) onGround = true;
+					if (velocity.y > 0)
+					{
+						onGround = true;
+					}
 					velocity.y = 0;
 				}
 			}
@@ -112,7 +122,7 @@ package
 			sprite.x = x - 12;
 			sprite.y = y - 8;
 			
-			if (y > 320)
+			if (y > 520)
 			{
 				(GameWorld)(FP.world).addBlackFade();
 				currentgrip = null;
@@ -169,10 +179,26 @@ package
 			if (x < 0) x1 = -1;
 			if (y < 0) y1 = -1;
 				
-			return levelmask[x1][y1] == 1 ||
-				   levelmask[x1][y2] == 1 ||
-				   levelmask[x2][y1] == 1 ||
-				   levelmask[x2][y2] == 1;
+			return levelmask[x1][y1]
+				|| levelmask[x1][y2]
+				|| levelmask[x2][y1]
+				|| levelmask[x2][y2] ;
+		}
+		
+		private function collideLock():Tile
+		{
+			var x1:int = int(x / 16);
+			var x2:int = int((x + width - 1) / 16);
+			var y1:int = int(y / 16);
+			var y2:int = int((y + height - 1) / 16);
+			if (x < 0) x1 = -1;
+			if (y < 0) y1 = -1;
+			
+			if (levelmask[x1][y1] == 2) return LevelData.locks[x1][y1]
+			else if (levelmask[x1][y2] == 2) return LevelData.locks[x1][y2];
+			else if (levelmask[x2][y1] == 2) return LevelData.locks[x2][y1];
+			else if (levelmask[x2][y2] == 2) return LevelData.locks[x2][y2];
+			else return null;
 		}
 		
 		private function collidemovingblocks():MovingBlock
@@ -197,6 +223,11 @@ package
 		public function isOnGround():Boolean
 		{
 			return onGround;
+		}
+		
+		public function giveKey():void
+		{
+			haskey = true;
 		}
 		
 	}

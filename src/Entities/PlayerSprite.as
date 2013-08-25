@@ -29,6 +29,7 @@ package Entities
 		
 		override public function update():void
 		{
+			if (player.frozen) return;
 			x = player.x - 12;
 			y = player.y - 8;
 			

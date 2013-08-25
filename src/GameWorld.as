@@ -4,6 +4,7 @@ package
 	import Entities.Clock;
 	import Entities.ClockHand;
 	import Entities.Grip;
+	import Entities.Key;
 	import Entities.MovingBlock;
 	import Entities.PlayerSprite;
 	import Entities.Star;
@@ -20,7 +21,6 @@ package
 	public class GameWorld extends World
 	{
 		public var player:Player;
-		private var levelmask:Array;
 		private var blackFade:BlackFade;
 		public static var time:int = 0;
 		public static const endtime:int = 600;
@@ -38,8 +38,8 @@ package
 		{
 			FP.screen.color = 0x1D1A36;
 			for (var i:int = 0; i < 12; i++) add(new Star(i * Main.width / 12 + 10, Math.random() * (Main.height - 40)));
-			add(new Clock(80, 0));
-			add(new ClockHand(139, 77));
+			add(new Clock(85, 0));
+			add(new ClockHand(144, 77));
 			
 			for (i = 0; i < LevelData.rickets.length; i++)
 			{
@@ -64,6 +64,7 @@ package
 			blackFade = new BlackFade();
 			
 			//add(new TimeDisplay(0, 0));
+			
 			Text.size = 8;
 			var e:Entity = new Entity(0, 0, new Text("Right, left to move"));
 			e.graphic.scrollX = e.graphic.scrollY = 0;
@@ -128,6 +129,16 @@ package
 			time = 0;
 			player.frozen = false;
 			timedirection = time_forward;
+			for (var i:int = 0; i < LevelData.actors.length; i++)
+			{
+				if (LevelData.actors[i] is Tile) LevelData.actors[i].lock();
+				else if (LevelData.actors[i] is Key)
+				{
+					LevelData.actors[i].used = false;
+					LevelData.actors[i].sprite.alpha = 1;
+					LevelData.actors[i].reset();
+				}
+			}
 		}
 		
 	}

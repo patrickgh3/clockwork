@@ -54,7 +54,6 @@ package Entities
 		{
 			x = block.x;
 			y = block.y;
-			trace("a");
 		}
 		
 	}

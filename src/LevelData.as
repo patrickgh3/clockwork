@@ -1,6 +1,7 @@
 package  
 {
 	import Entities.Grip;
+	import Entities.Key;
 	import Entities.MovingBlock;
 	import Entities.Ricket;
 	import net.flashpunk.FP;
@@ -17,6 +18,7 @@ package
 		public static var rickets:Array = new Array();
 		public static var movingblocks:Array = new Array();
 		public static var levelmask:Array = new Array();
+		public static var locks:Array = new Array();
 		public static var width:int;
 		public static var height:int;
 		
@@ -28,6 +30,11 @@ package
 			height = xml.@height / 16;
 			
 			for (var i:int = 0; i < width; i++)
+			{
+				locks.push(new Array());
+			}
+			
+			for (i = 0; i < width; i++)
 			{
 				levelmask.push(new Array());
 				for (var j:int = 0; j < height; j++)
@@ -42,8 +49,14 @@ package
 				var y:int = node.@y;
 				var tx:int = node.@tx;
 				var ty:int = node.@ty;
-				actors.push(new Tile(x * 16, y * 16, tx, ty));
+				var t:Tile = new Tile(x * 16, y * 16, tx, ty);
+				actors.push(t);
 				levelmask[x][y] = 1;
+				if (tx == 3 && ty == 0)
+				{
+					levelmask[x][y] = 2;
+					locks[x][y] = t;
+				}
 			}
 			actors.reverse();
 			
@@ -57,6 +70,11 @@ package
 				var b:MovingBlock = new MovingBlock(node.@x, node.@y, node.@xdistance, node.@ydistance);
 				movingblocks.push(b);
 				rickets.push(new Ricket(b, node.@ricketdirection));
+			}
+			
+			for each (node in xml.Entities.Key)
+			{
+				actors.push(new Key(node.@x, node.@y, node.@special));
 			}
 			
 			for each (node in xml.Entities.PlayerStart)

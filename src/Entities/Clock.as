@@ -13,7 +13,7 @@ package Entities
 		[Embed(source = "/../assets/clock.png")]
 		private static const src:Class;
 		
-		public static const scrollSpeed:Number = 0.04;
+		public static const scrollSpeed:Number = 0.03;
 		
 		
 		public function Clock(x:int, y:int) 
