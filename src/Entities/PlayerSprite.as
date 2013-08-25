@@ -95,6 +95,12 @@ package Entities
 			count = -1;
 		}
 		
+		public function fish():void
+		{
+			sprite.flipped = false;
+			sprite.setFrame(0, 4);
+		}
+		
 	}
 
 }

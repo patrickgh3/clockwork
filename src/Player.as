@@ -230,6 +230,12 @@ package
 			haskey = true;
 		}
 		
+		public function fish():void
+		{
+			frozen = true;
+			sprite.fish();
+		}
+		
 	}
 
 }

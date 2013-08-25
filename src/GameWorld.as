@@ -3,6 +3,7 @@ package
 	import Entities.BlackFade;
 	import Entities.Clock;
 	import Entities.ClockHand;
+	import Entities.Fish;
 	import Entities.Grip;
 	import Entities.Key;
 	import Entities.MovingBlock;
@@ -123,6 +124,8 @@ package
 			{
 				if (LevelData.actors[i] is Tile) LevelData.actors[i].lock();
 				else if (LevelData.actors[i] is Key) LevelData.actors[i].reset();
+				else if (LevelData.actors[i] is Fish) LevelData.actors[i].reset();
+				
 			}
 		}
 		
