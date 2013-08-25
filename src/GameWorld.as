@@ -8,8 +8,7 @@ package
 	import Entities.Key;
 	import Entities.MovingBlock;
 	import Entities.PlayerSprite;
-	import Entities.Star;
-	import Entities.TimeDisplay;
+	import Entities.Star;;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
@@ -34,6 +33,8 @@ package
 		public static var spawny:int;
 		private var clockcount:int = -1;
 		private var clocktime:int = 120;
+		public static var ticks:int = 0;
+		public var stopcountingticks:Boolean = false;
 		
 		public function GameWorld() 
 		{
@@ -65,12 +66,11 @@ package
 			add(playersprite);
 			blackFade = new BlackFade(BlackFade.fadeTime);
 			add(blackFade);
-			
-			//add(new TimeDisplay(0, 0));
 		}
 		
 		override public function update():void
 		{
+			if (!stopcountingticks) ticks++;
 			if (clockcount != -1)
 			{
 				clockcount++;
@@ -120,6 +120,7 @@ package
 			player.y = spawny;
 			time = 0;
 			player.frozen = false;
+			player.haskey = false;
 			timedirection = time_forward;
 			for (var i:int = 0; i < LevelData.actors.length; i++)
 			{

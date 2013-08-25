@@ -25,7 +25,7 @@ package
 		private var currentmovingblock:MovingBlock;
 		public var sprite:PlayerSprite;
 		public var frozen:Boolean = false;
-		private var haskey:Boolean = false;
+		public var haskey:Boolean = false;
 		
 		private var grav:Number = 0.1;
 		private var runSpeed:Number = 1;
@@ -110,10 +110,7 @@ package
 				if (collision || (blockcollision && velocity.y < 0))
 				{
 					y -= diff;
-					if (velocity.y > 0)
-					{
-						onGround = true;
-					}
+					if (velocity.y > 0) onGround = true;
 					velocity.y = 0;
 				}
 			}

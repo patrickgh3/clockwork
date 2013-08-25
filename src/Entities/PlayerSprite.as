@@ -19,6 +19,8 @@ package Entities
 		public var walking:Boolean = false;
 		private var turning:Boolean = false;
 		public var holding:Boolean = false;
+		private var nojumpcount:int = nojumptime;
+		private var nojumptime:int = 15;
 		
 		public function PlayerSprite(p:Player) 
 		{
@@ -30,6 +32,7 @@ package Entities
 		override public function update():void
 		{
 			if (player.frozen) return;
+			
 			x = player.x - 12;
 			y = player.y - 8;
 			
@@ -38,11 +41,14 @@ package Entities
 			
 			if (holding) return;
 			
-			if (!player.isOnGround())
+			if (nojumpcount < nojumptime) nojumpcount++;
+			
+			if (!player.isOnGround() && nojumpcount == nojumptime)
 			{
 				sprite.setFrame(1, 0);
 				count = -1;
 				walking = false;
+				nojumpcount = 0;
 			}
 			else if (player.velocity.x == 0 && player.isOnGround() && !turning)
 			{

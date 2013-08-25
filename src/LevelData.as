@@ -1,5 +1,6 @@
 package  
 {
+	import Entities.EndGrip;
 	import Entities.Fish;
 	import Entities.Grip;
 	import Entities.HintTrigger;
@@ -87,6 +88,11 @@ package
 			for each (node in xml.Entities.Fish)
 			{
 				actors.push(new Fish(node.@x, node.@y));
+			}
+			
+			for each (node in xml.Entities.EndGrip)
+			{
+				actors.push(new EndGrip(node.@x, node.@y));
 			}
 			
 			for each (node in xml.Entities.PlayerStart)
