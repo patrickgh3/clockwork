@@ -94,7 +94,7 @@ package
 				GameWorld.spawnx = node.@x;
 				GameWorld.spawnx += 3;
 				GameWorld.spawny = node.@y;
-				GameWorld.spawny += 3;
+				GameWorld.spawny += 4;
 			}
 		}
 		

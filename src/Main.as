@@ -10,9 +10,11 @@ package
 	 */
 	public class Main extends Engine
 	{
-		private var gw:GameWorld;
+		public static var gw:GameWorld;
+		public static var tw:TitleWorld;
 		public static var width:Number = 224;
 		public static var height:Number = 160;
+		public static const skycolor:Number = 0x1D1A36;
 		
 		public function Main() 
 		{
@@ -23,8 +25,8 @@ package
 		override public function init():void
 		{
 			LevelData.init();
-			gw = new GameWorld();
-			FP.world = gw;
+			tw = new TitleWorld();
+			FP.world = tw;
 		}
 		
 	}

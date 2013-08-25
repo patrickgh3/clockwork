@@ -263,8 +263,8 @@
     <Grip id="17" x="1664" y="144" />
     <Grip id="19" x="1424" y="144" />
     <Grip id="18" x="2080" y="144" />
-    <PlayerStart id="0" x="864" y="128" />
-    <HintTrigger id="21" x="864" y="128" width="16" height="16" text="Don't let the clock strike twelve!&#xD;Move with the arrow keys." />
+    <PlayerStart id="0" x="48" y="192" />
+    <HintTrigger id="21" x="48" y="192" width="16" height="16" text="Don't let the clock strike twelve!&#xD;Move with the arrow keys." />
     <HintTrigger id="20" x="128" y="192" width="16" height="16" text="Hold X to use your wrench." />
     <Grip id="23" x="1008" y="144" />
     <Grip id="5" x="128" y="192" />

@@ -37,8 +37,9 @@ package
 		
 		public function GameWorld() 
 		{
-			FP.screen.color = 0x1D1A36;
-			for (var i:int = 0; i < 12; i++) add(new Star(i * Main.width / 12 + 10, Math.random() * (Main.height - 50) + 10));
+			FP.screen.color = Main.skycolor;
+			for (var i:int = 0; i < 12; i++)
+				add(new Star(i * Main.width / 12 + 10, Math.random() * (Main.height - 50) + 10));
 			add(new Clock(85, 0));
 			add(new ClockHand(144, 77));
 			
