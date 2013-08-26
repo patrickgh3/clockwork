@@ -4,6 +4,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.Sfx;
 	
 	/**
 	 * A tile which the structure of the world is made of.
@@ -12,9 +13,12 @@ package
 	{
 		[Embed(source = "/../assets/tiles.png")]
 		private static const src:Class;
+		[Embed(source = "/../assets/sound/wrench.mp3")]
+		private static const sound:Class;
 		
 		private var image:Image;
 		public var isLock:Boolean = false;
+		private static var sfx:Sfx = new Sfx(sound);
 		
 		public function Tile(x:int, y:int, tx:int, ty:int) 
 		{
@@ -29,6 +33,7 @@ package
 		{
 			image.alpha = 0;
 			LevelData.levelmask[(x + 2) / 16][(y + 3) / 16] = 0;
+			sfx.play(0.5);
 		}
 		
 		public function lock():void
