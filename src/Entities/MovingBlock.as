@@ -32,17 +32,13 @@ package Entities
 		
 		override public function update():void
 		{
+			if (player == null) player = (GameWorld)(FP.world).player;
 			
 			x = start.x + (GameWorld.time / 600) * (end.x - start.x);
 			y = start.y + (GameWorld.time / 600) * (end.y - start.y);
 			
-			/* Pushing player */
-			if (player == null) player = (GameWorld)(FP.world).player;
-			if (x < player.x + player.width
-				&& x + width > player.x
-				&& y < player.y + player.height
-				&& y + height > player.y
-				&& player.y > y - 10)
+			/* Pushing player horizontally when he's in the way */
+			if (ClockUtil.entityCollide(this, player) && player.y > y - 10)
 			{
 				if (end.x > start.x) player.x = x + width + 1;
 				else if (end.x < start.x) player.x = x - player.width - 1;

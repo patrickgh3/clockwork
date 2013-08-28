@@ -24,9 +24,10 @@ package
 		{
 			x -= 2;
 			y -= 3;
-			super(x, y);
-			graphic = image = new Image(src, new Rectangle(tx * 20, ty * 20, 20, 20));
+			this.x = x;
+			this.y = y;
 			if (tx == 3 && ty == 0) isLock = true;
+			graphic = image = new Image(src, new Rectangle(tx * 20, ty * 20, 20, 20));
 		}
 		
 		public function unlock():void
@@ -38,8 +39,9 @@ package
 		
 		public function lock():void
 		{
+			if (!isLock) return;
 			image.alpha = 1;
-			if (isLock) LevelData.levelmask[(x + 2) / 16][(y + 3) / 16] = 2;
+			LevelData.levelmask[(x + 2) / 16][(y + 3) / 16] = 2;
 		}
 		
 	}

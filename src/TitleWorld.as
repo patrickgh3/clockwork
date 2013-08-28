@@ -2,15 +2,16 @@ package
 {
 	import Entities.SleepPlayer;
 	import Entities.Wrench;
+	import Entities.Star;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.World;
+	import net.flashpunk.graphics.Image;
+	import net.flashpunk.graphics.Text;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
-	import net.flashpunk.World;
-	import net.flashpunk.graphics.Text;
-	import net.flashpunk.graphics.Image;
-	import Entities.Star;
+	
 	
 	/**
 	 * World for the title screen.

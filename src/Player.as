@@ -43,6 +43,7 @@ package
 		
 		override public function update():void
 		{
+			/* Get input, etc. */
 			if (frozen) return;
 			if (sprite == null) sprite = GameWorld.playersprite;
 			var right:Boolean = Input.check(Key.RIGHT);
@@ -65,6 +66,7 @@ package
 			}
 			
 			/* Movement */
+			// horizontal movement
 			for (var i:int = 0; i < Math.abs(velocity.x); i++)
 			{
 				var diff:Number = Math.min(1, Math.abs(velocity.x) - i) * sign(velocity.x);
@@ -87,6 +89,7 @@ package
 			if (currentmovingblock != null &&
 				(x > currentmovingblock.x + currentmovingblock.width
 				|| x + width < currentmovingblock.x)) currentmovingblock = null;
+			// vertical movement
 			if (currentmovingblock)
 			{
 				y = currentmovingblock.y - 11;
@@ -121,12 +124,13 @@ package
 			
 			if (y > 520)
 			{
-				(GameWorld)(FP.world).addBlackFade();
+				(GameWorld)(FP.world).fadeOut();
 				currentgrip = null;
 				currentmovingblock = null;
 			}
 			
-			while (collidelevelmask()) y--;
+			while (collidelevelmask()) y--; // pop the player up if he's stuck.
+			// This happens when standing on a horizontal moving block, and it pushes you into a wall.
 			
 			/* Turning grip */
 			if (action && !turning && onGround)
@@ -134,10 +138,7 @@ package
 				for (i = 0; i < grips.length; i++)
 				{
 					var g:Grip = grips[i];
-					if (x > g.x + g.width
-					|| x + width < g.x
-					|| y > g.y + g.height
-					|| y + height < g.y) continue;
+					if (!ClockUtil.entityCollide(this, g)) continue;
 					
 					turning = true;
 					g.animating = true;
@@ -202,12 +203,7 @@ package
 		{
 			for (var i:int = 0; i < movingblocks.length; i++)
 			{
-				var b:MovingBlock = movingblocks[i];
-				if (x > b.x + b.width
-					|| x + width < b.x
-					|| y > b.y + b.height
-					|| y + height < b.y) continue;
-				return b;
+				if (ClockUtil.entityCollide(this, movingblocks[i])) return movingblocks[i];
 			}
 			return null;
 		}
@@ -227,10 +223,10 @@ package
 			haskey = true;
 		}
 		
-		public function fish():void
+		public function getFish():void
 		{
 			frozen = true;
-			sprite.fish();
+			sprite.getFish();
 		}
 		
 	}

@@ -69,6 +69,7 @@ package Entities
 					FP.world.add(new FadeText(Main.width / 2, 34, "for Ludum Dare 27: 10 Seconds", 8));
 					FP.world.add(new FadeText(Main.width / 2, 44, "powered by Flashpunk and Ogmo", 8));
 					FP.world.add(new FadeText(Main.width / 2, 54, "Thanks for playing!", 8));
+					
 					var ticks:Number = (Number)(GameWorld.ticks);
 					var minutes:int = ticks / 3600;
 					ticks %= 3600;
@@ -85,9 +86,7 @@ package Entities
 				}
 				count++;
 			}
-			else if (x < player.x + player.width && x + width > player.x
-				&& y < player.y + player.height && y + height > player.y
-				&& Input.check(net.flashpunk.utils.Key.X))
+			else if (ClockUtil.entityCollide(this, player) && Input.check(net.flashpunk.utils.Key.X))
 			{
 				count = 0;
 				FP.world.remove(player);

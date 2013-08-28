@@ -15,7 +15,6 @@ package Entities
 		
 		public static const scrollSpeed:Number = 0.03;
 		
-		
 		public function Clock(x:int, y:int) 
 		{
 			super(x, y);

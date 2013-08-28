@@ -36,13 +36,11 @@ package Entities
 		override public function update():void
 		{
 			if (player == null) player = (GameWorld)(FP.world).player;
-			if (x < player.x + player.width && x + width > player.x
-				&& y < player.y + player.height && y + height > player.y
-				&& !used)
+			if (ClockUtil.entityCollide(this, player) && !used)
 			{
 				used = true;
 				(Image)(graphic).alpha = 0;
-				player.fish();
+				player.getFish();
 				sfx.play(0.5);
 			}
 		}

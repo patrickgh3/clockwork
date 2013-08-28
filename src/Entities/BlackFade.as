@@ -9,8 +9,8 @@ package Entities
 	 */
 	public class BlackFade extends Entity
 	{
-		private var image:Image;
 		public static const fadeTime:int = 40;
+		private var image:Image;
 		private var count:int = 0;
 		
 		public function BlackFade(count:int = 0) 
@@ -31,7 +31,7 @@ package Entities
 			}
 			else if (count < fadeTime * 2)
 			{
-				if (count == fadeTime) (GameWorld)(FP.world).addPlayer();
+				if (count == fadeTime) (GameWorld)(FP.world).onFadeIn();
 				image.alpha = 1 - (count - fadeTime) / fadeTime;
 			}
 			else if (count == fadeTime * 2)

@@ -1,8 +1,8 @@
 package Entities 
 {
 	import net.flashpunk.Entity;
-	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.Sfx;
+	import net.flashpunk.graphics.Spritemap;
 	
 	/**
 	 * Wrench grip that the player turns.
@@ -23,7 +23,10 @@ package Entities
 		
 		public function Grip(x:int, y:int) 
 		{
-			super(x - 1, y - 3);
+			x -= 1;
+			y -= 3;
+			this.x = x;
+			this.y = y;
 			graphic = sprite = new Spritemap(src, 16, 20);
 			sprite.setFrame(0);
 			width = height = 16;
@@ -34,7 +37,7 @@ package Entities
 		{
 			if (animating && !animatinglast)
 			{
-				playsound();
+				sfx.play(0.5);
 			}
 			
 			if (animating)
@@ -44,24 +47,20 @@ package Entities
 				{
 					count = 0;
 					sprite.setFrame(0);
-					playsound();
+					sfx.play(0.5);
 				}
 				if (count > animspeed)
 				{
 					sprite.setFrame(1);
-					playsound();
+					sfx.play(0.5);
 				}
 			}
 			else
 			{
 				sprite.setFrame(0);
 			}
+			
 			animatinglast = animating;
-		}
-		
-		private function playsound():void
-		{
-			sfx.play(0.5);
 		}
 		
 	}

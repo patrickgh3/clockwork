@@ -12,7 +12,7 @@ package Entities
 		private static const src:Class;
 		
 		private var count:int = 0;
-		private var animspeed:int = 10;
+		private const animspeed:int = 10;
 		private var sprite:Spritemap;
 		
 		public function SleepPlayer(x:int, y:int) 
@@ -29,8 +29,6 @@ package Entities
 			{
 				if (count <= animspeed * 3) sprite.setFrame(count / animspeed, 0);
 				else sprite.setFrame((count - animspeed * 4) / animspeed, 1);
-				//else if (count <= animspeed * 7) sprite.setFrame((count - animspeed * 4) / animspeed, 1);
-				//else sprite.setFrame((count - animspeed * 8) / animspeed, 2);
 			}
 		}
 		

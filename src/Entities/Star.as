@@ -14,7 +14,7 @@ package Entities
 		
 		private var startype:int = (int)(Math.random() * 2);
 		private var count:int = Math.random() * (Number)(animSpeed) * 4;
-		private var animSpeed:int = 15;
+		private const animSpeed:int = 15;
 		private var sprite:Spritemap;
 		
 		public function Star(x:int, y:int) 

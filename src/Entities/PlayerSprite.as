@@ -16,19 +16,21 @@ package Entities
 		[Embed(source = "/../assets/sound/jump.mp3")]
 		private static const jump:Class;
 		
-		private var sprite:Spritemap;
-		private var player:Player;
 		private static const walkSpeed:int = 7;
 		private static const turnSpeed:int = 10;
+		
+		private var sprite:Spritemap;
+		private var player:Player;
 		private var count:int = 0;
 		public var walking:Boolean = false;
 		private var turning:Boolean = false;
 		public var holding:Boolean = false;
-		private var nojumpcount:int = nojumptime;
-		private var nojumptime:int = 15;
+		private var lastyvel:Number = 0;
 		private var sfxStep:Sfx;
 		private var sfxJump:Sfx;
-		private var lastyvel:Number = 0;
+		
+		private var nojumpcount:int = nojumptime;
+		private const nojumptime:int = 15;
 		
 		public function PlayerSprite(p:Player) 
 		{
@@ -119,7 +121,7 @@ package Entities
 			count = -1;
 		}
 		
-		public function fish():void
+		public function getFish():void
 		{
 			sprite.flipped = false;
 			sprite.setFrame(0, 4);

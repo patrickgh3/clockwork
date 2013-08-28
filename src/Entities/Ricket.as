@@ -24,6 +24,7 @@ package Entities
 			this.block = b;
 			var image:Image;
 			graphic = image = new Image(src);
+			
 			if (direction == dir_top)
 			{
 				image.angle = 90;
