@@ -18,16 +18,17 @@ package
 	 */
 	public class TitleWorld extends World
 	{
-		private var titletext:Entity;
-		private var presstext:Entity;
-		private var cat:SleepPlayer;
-		private var wrench:Entity;
+		private var initialEntities:Array = [];
+		private var customLevelEntities:Array = [];
 		private var purplefade:Entity;
 		private var blackfade:Entity;
+		private var customLevelErrorText:Entity;
 		private var eventcount:int = -1;
 		private var eventtime1:int = 120;
 		private var fadecount:int = -10;
 		private var fadetime:int = 120;
+		private var errortextcount:int = 0;
+		private var incustom:Boolean = false;
 		
 		public function TitleWorld() 
 		{
@@ -36,16 +37,22 @@ package
 				add(new Star(i * Main.width / 8 + 10, Math.random() * (Main.height)));
 			
 			Text.size = 24;
-			titletext = new Entity(24, 32, new Text("Clockwork Cat"));
-			add(titletext);
+			initialEntities.push(new Entity(24, 32, new Text("Clockwork Cat")));
 			Text.size = 8;
-			presstext = new Entity(72, 128, new Text("Press X to start"));
-			add(presstext);
-			cat = new SleepPlayer(Main.width / 2 - 28, Main.height / 2 - 16);
-			add(cat);
+			initialEntities.push(new Entity(72, 128, new Text("Press X to start")));
+			initialEntities.push(new Entity(58, 137, new Text("Press C for custom level")));
+			initialEntities.push(new SleepPlayer(Main.width / 2 - 28, Main.height / 2 - 16));
+			initialEntities.push(new Wrench(Main.width / 2 + 12, Main.height / 2 + 8));
+			ExecuteOnEntityArray(initialEntities, add);
 			
-			wrench = new Wrench(Main.width / 2 + 12, Main.height / 2 + 8);
-			add(wrench);
+			Text.size = 16;
+			customLevelEntities.push(new Entity(32, 8, new Text("Custom Levels =^.^=")));
+			Text.size = 8;
+			customLevelEntities.push(new Entity(32, 24, new Text("description and links go here.\n\n"
+			+ "Press C to load level\nPress T to return to title")));
+			customLevelErrorText = new Entity(32, 100, new Text("Invalid level."));
+			(customLevelErrorText.graphic as Image).alpha = 0;
+			customLevelEntities.push(customLevelErrorText);
 			
 			purplefade = new Entity(0, 0, Image.createRect(Main.width, Main.height, Main.skycolor));
 			(Image)(purplefade.graphic).alpha = 0;
@@ -58,9 +65,35 @@ package
 		override public function update():void
 		{
 			super.update();
-			if (Input.check(Key.X) && eventcount == -1 && fadecount == fadetime)
+			if (eventcount == -1 && fadecount == fadetime)
 			{
-				eventcount = 0;
+				if (Input.check(Key.X))
+				{
+					if (incustom)
+					{
+						// todo: try load custom level
+						errortextcount = 90;
+					}
+					else
+					{
+						eventcount = 0;
+						remove(blackfade);
+						add(blackfade); // send to front
+					}
+				}
+				else if (Input.check(Key.C) && !incustom)
+				{
+					incustom = true;
+					ExecuteOnEntityArray(initialEntities, remove);
+					ExecuteOnEntityArray(customLevelEntities, add);
+				}
+				else if (Input.check(Key.T) && incustom)
+				{
+					incustom = false;
+					ExecuteOnEntityArray(initialEntities, add);
+					ExecuteOnEntityArray(customLevelEntities, remove);
+					errortextcount = 0;
+				}
 			}
 			
 			if (fadecount < fadetime)
@@ -73,6 +106,17 @@ package
 				eventcount++;
 				(Image)(blackfade.graphic).alpha = eventcount / eventtime1;
 				if (eventcount == eventtime1) FP.world = new GameWorld();
+			}
+			
+			if (errortextcount > 0) errortextcount--;
+			(customLevelErrorText.graphic as Image).alpha = errortextcount / 60;
+		}
+		
+		private function ExecuteOnEntityArray(array:Array, func:Function):void
+		{
+			for each (var entity:Entity in array)
+			{
+				func(entity);
 			}
 		}
 		
