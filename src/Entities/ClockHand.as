@@ -13,13 +13,15 @@ package Entities
 		
 		private var image:Image;
 		
-		public function ClockHand(x:int, y:int) 
+		public function ClockHand() 
 		{
-			super(x, y);
+			super(Clock.startX, 77);
 			graphic = image = new Image(src);
 			graphic.scrollX = graphic.scrollY = Clock.scrollSpeed;
 			image.originX = 3;
 			image.originY = 4;
+			graphic.x = -1.75;
+			graphic.y = -3;
 		}
 		
 		override public function update():void

@@ -66,6 +66,7 @@ package
 			}
 			
 			// todo: fix awkward jumping and add switch
+			// related: if you jump up 1 block and jump off of it as soon as you can, the land sound doesn't play
 			
 			// todo: fix end timer (also on same legacy switch)
 			
@@ -130,7 +131,7 @@ package
 			sprite.x = x - 12;
 			sprite.y = y - 8;
 			
-			if (y > 520)
+			if (y > LevelData.height * 16 + 8)
 			{
 				(GameWorld)(FP.world).fadeOut(GameWorld.fade_respawn);
 				currentgrip = null;
@@ -206,7 +207,7 @@ package
 		
 		private function getLevelMaskSafe(x:int, y:int):int
 		{
-			if (x < 0 || x >= levelmask.length || y < 0 || y >= levelmask[0].length)
+			if (x < 0 || x >= LevelData.width || y < 0 || y >= LevelData.height)
 			{
 				return 0;
 			}

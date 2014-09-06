@@ -56,8 +56,9 @@ package
 			FP.screen.color = Main.skycolor;
 			for (var i:int = 0; i < 12; i++)
 				add(new Star(i * Main.width / 12 + 10, Math.random() * (Main.height - 50) + 10));
-			add(new Clock(85, 0));
-			add(new ClockHand(144, 77));
+			Clock.computePositions();
+			add(new Clock());
+			add(new ClockHand());
 			for (i = 0; i < LevelData.rickets.length; i++) add(LevelData.rickets[i]);
 			for (i = 0; i < LevelData.movingblocks.length; i++) add(LevelData.movingblocks[i]);
 			
