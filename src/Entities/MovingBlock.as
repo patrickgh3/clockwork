@@ -16,8 +16,9 @@ package Entities
 		private var start:Point = new Point();
 		private var end:Point = new Point();
 		private var player:Player;
+		private var ricket:Entity;
 		
-		public function MovingBlock(x:int, y:int, xdistance:int, ydistance:int) 
+		public function MovingBlock(x:int, y:int, xdistance:int, ydistance:int, ricket:Entity) 
 		{
 			super(x, y);
 			graphic = new Image(src);
@@ -28,6 +29,7 @@ package Entities
 			start.y = y;
 			end.x = x + xdistance;
 			end.y = y + ydistance;
+			this.ricket = ricket;
 		}
 		
 		override public function update():void
@@ -36,6 +38,9 @@ package Entities
 			
 			x = start.x + (GameWorld.time / 600) * (end.x - start.x);
 			y = start.y + (GameWorld.time / 600) * (end.y - start.y);
+			
+			ricket.x = x;
+			ricket.y = y;
 			
 			/* Pushing player horizontally when he's in the way */
 			if (ClockUtil.entityCollide(this, player) && player.y > y - 10)

@@ -124,7 +124,7 @@ package
 			
 			if (y > 520)
 			{
-				(GameWorld)(FP.world).fadeOut();
+				(GameWorld)(FP.world).fadeOut(GameWorld.fade_respawn);
 				currentgrip = null;
 				currentmovingblock = null;
 			}

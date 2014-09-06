@@ -1,6 +1,7 @@
 package  
 {
 	import Entities.*;
+	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	
 	/**
@@ -182,9 +183,9 @@ package
 			
 			for each (node in xml.Entities.MovingBlock)
 			{
-				var b:MovingBlock = new MovingBlock(node.@x, node.@y, node.@xdistance, node.@ydistance);
-				movingblocks.push(b);
-				rickets.push(new Ricket(b, node.@ricketdirection));
+				var r:Entity = new Ricket(node.@ricketdirection);
+				movingblocks.push(new MovingBlock(node.@x, node.@y, node.@xdistance, node.@ydistance, r));
+				rickets.push(r);
 			}
 			
 			for each (node in xml.Entities.Key)
