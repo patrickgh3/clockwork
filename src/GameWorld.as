@@ -7,6 +7,8 @@ package
 	import net.flashpunk.World;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Text;
+	import net.flashpunk.utils.Input;
+	import net.flashpunk.utils.Key;
 	
 	/**
 	 * Main world of the game.
@@ -21,6 +23,8 @@ package
 		public static var playersprite:PlayerSprite;
 		public static var spawnx:int;
 		public static var spawny:int;
+		public static var endingTextShown:Boolean = false;
+		public static var inEndingCutscene:Boolean = false;
 		
 		public static var time:int = 0;
 		public static const endtime:int = 600;
@@ -28,6 +32,10 @@ package
 		public static const time_forward:int = 1;
 		public static const time_backward:int = 2;
 		public static const time_stopped:int = 3;
+		
+		private var fadeAction:int;
+		public static const fade_respawn:int = 1;
+		public static const fade_title:int = 2;
 		
 		private var clockcount:int = -1; // used when the clock strikes twelve
 		private const clocktime:int = 120;
@@ -38,6 +46,12 @@ package
 		
 		public function GameWorld() 
 		{
+			time = 0;
+			ticks = 0;
+			timedirection = time_forward;
+			endingTextShown = false;
+			inEndingCutscene = false;
+			
 			/* Background entities */
 			FP.screen.color = Main.skycolor;
 			for (var i:int = 0; i < 12; i++)
@@ -76,8 +90,14 @@ package
 				if (clockcount == clocktime)
 				{
 					clockcount = -1;
-					fadeOut();
+					fadeOut(fade_respawn);
 				}
+			}
+			
+			if (Input.check(net.flashpunk.utils.Key.T)
+				&& ((!player.frozen && (blackFade.graphic as Image).alpha == 0 && timedirection == time_forward && !inEndingCutscene) || endingTextShown))
+			{
+				fadeOut(fade_title);
 			}
 			
 			if (timedirection == time_forward && time < 600)
@@ -102,29 +122,38 @@ package
 			FP.camera.y = Math.max(0, Math.min(LevelData.height * 16 - Main.height, player.y + player.width / 2 - 16 - Main.height / 2));
 		}
 		
-		public function fadeOut():void
+		public function fadeOut(fadeAction:int):void
 		{
 			add(blackFade);
 			remove(player);
 			player.frozen = true;
 			timedirection = time_stopped;
+			this.fadeAction = fadeAction;
 		}
 		
 		public function onFadeIn():void
 		{
-			add(player);
-			player.x = spawnx;
-			player.y = spawny;
-			time = 0;
-			player.frozen = false;
-			player.haskey = false;
-			timedirection = time_forward;
-			for (var i:int = 0; i < LevelData.actors.length; i++)
+			if (fadeAction == fade_respawn)
 			{
-				if (LevelData.actors[i] is Tile) LevelData.actors[i].lock();
-				else if (LevelData.actors[i] is Key) LevelData.actors[i].reset();
-				else if (LevelData.actors[i] is Fish) LevelData.actors[i].reset();
-				
+				add(player);
+				player.x = spawnx;
+				player.y = spawny;
+				time = 0;
+				player.frozen = false;
+				player.haskey = false;
+				timedirection = time_forward;
+				for (var i:int = 0; i < LevelData.actors.length; i++)
+				{
+					if (LevelData.actors[i] is Tile) LevelData.actors[i].lock();
+					else if (LevelData.actors[i] is Entities.Key) LevelData.actors[i].reset();
+					else if (LevelData.actors[i] is Fish) LevelData.actors[i].reset();
+					
+				}
+			}
+			else
+			{
+				removeAll();
+				FP.world = new TitleWorld();
 			}
 		}
 		

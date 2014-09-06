@@ -61,6 +61,12 @@ package
 			if (Input.check(Key.X) && eventcount == -1 && fadecount == fadetime)
 			{
 				eventcount = 0;
+				
+				// take custom_levels's version of this in the merge, since the new level loading system can overwrite previously loaded levels,
+				// and thus takes care of resetting the spawn.
+				// note: this should also fix hints not appearing and other problems when playing the level a second time.
+				GameWorld.spawnx = 48 + 3;
+				GameWorld.spawny = 192 + 4;
 			}
 			
 			if (fadecount < fadetime)
