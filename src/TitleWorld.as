@@ -3,6 +3,12 @@ package
 	import Entities.SleepPlayer;
 	import Entities.Wrench;
 	import Entities.Star;
+	import flash.events.TextEvent;
+	import flash.events.ContextMenuEvent;
+	import flash.text.TextField;
+	import flash.text.TextFieldType;
+	import flash.text.TextFormat;
+	import flash.ui.ContextMenu;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.World;
@@ -11,7 +17,6 @@ package
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
-	
 	
 	/**
 	 * World for the title screen.
@@ -29,9 +34,11 @@ package
 		private var fadetime:int = 120;
 		private var errortextcount:int = 0;
 		private var incustom:Boolean = false;
+		private var _copyPaste:TextField;
 		
 		public function TitleWorld() 
 		{
+			// create / add entities
 			FP.screen.color = Main.skycolor;
 			for (var i:int = 0; i < 8; i++)
 				add(new Star(i * Main.width / 8 + 10, Math.random() * (Main.height)));
@@ -48,9 +55,9 @@ package
 			Text.size = 16;
 			customLevelEntities.push(new Entity(32, 8, new Text("Custom Levels =^.^=")));
 			Text.size = 8;
-			customLevelEntities.push(new Entity(32, 24, new Text("description and links go here.\n\n"
-			+ "Press C to load level\nPress T to return to title")));
-			customLevelErrorText = new Entity(32, 100, new Text("Invalid level."));
+			customLevelEntities.push(new Entity(24, 24, new Text("description and links go here.\n\n"
+			+ "Right-click and paste the level into the game.\nPress T to return to title")));
+			customLevelErrorText = new Entity(32, 100, new Text("Invalid level.", 0, 0, 2000, 100));
 			(customLevelErrorText.graphic as Image).alpha = 0;
 			customLevelEntities.push(customLevelErrorText);
 			
@@ -60,26 +67,39 @@ package
 			blackfade = new Entity(0, 0, Image.createRect(Main.width, Main.height, 0x000000));
 			(Image)(blackfade.graphic).alpha = 0;
 			add(blackfade);
+			
+			// Add a text field over the whole app. Allows for right-click copy/paste, as well as ctrl-c/ctrl-v
+			// Taken from as3sfxr: https://code.google.com/p/as3sfxr/source/browse/trunk/src/SfxrApp.as
+			// with a few modifications. Honestly I just changed things at random until it worked.
+			// Got to here from this thread: http://forums.tigsource.com/index.php?topic=19716.0;wap2
+			// which came from a google search.
+			_copyPaste = new TextField();
+			_copyPaste.addEventListener(TextEvent.TEXT_INPUT, updateFromCopyPaste);
+			_copyPaste.defaultTextFormat = new TextFormat("Amiga4Ever", 8, 0);
+			_copyPaste.wordWrap = false;
+			_copyPaste.multiline = false;
+			_copyPaste.type = TextFieldType.INPUT;
+			_copyPaste.embedFonts = true;
+			_copyPaste.width = 1000;
+			_copyPaste.height = 1000;
+			_copyPaste.x = 0;
+			_copyPaste.y = 0;
+			FP.stage.addChild(_copyPaste);
+			_copyPaste.contextMenu = new ContextMenu();
+			FP.stage.focus = _copyPaste;
+			// todo: make it a visible box or something, and direct the player to click on it.
+			// and remove it when in the normal title state / game state, so everywhere you right-click you see the standard options menu.
 		}
 		
 		override public function update():void
 		{
 			super.update();
-			if (eventcount == -1 && fadecount == fadetime)
+			if (!isFading())
 			{
-				if (Input.check(Key.X))
+				if (Input.check(Key.X) && !incustom)
 				{
-					if (incustom)
-					{
-						// todo: try load custom level
-						errortextcount = 90;
-					}
-					else
-					{
-						eventcount = 0;
-						remove(blackfade);
-						add(blackfade); // send to front
-					}
+					LevelData.loadStandardLevel();
+					startFade();
 				}
 				else if (Input.check(Key.C) && !incustom)
 				{
@@ -109,7 +129,41 @@ package
 			}
 			
 			if (errortextcount > 0) errortextcount--;
-			(customLevelErrorText.graphic as Image).alpha = errortextcount / 60;
+			(customLevelErrorText.graphic as Image).alpha = errortextcount / 90;
+		}
+		
+		private function isFading():Boolean
+		{
+			return eventcount != -1 || fadecount != fadetime;
+		}
+		
+		private function startFade():void
+		{
+			eventcount = 0;
+			remove(blackfade);
+			add(blackfade); // send blackfade to front
+		}
+		
+		private function updateFromCopyPaste(e:TextEvent):void
+		{
+			if (!incustom || isFading()
+				|| e.text.length <= 1) // don't let stray keypresses trigger the level loading
+			{
+				return;
+			}
+			
+			e.text = e.text.replace(/  /g, "").replace(/    /g, ""); // standard spaces outputted by Ogmo
+			var result:Boolean = LevelData.tryLoadCustomLevel(e.text);
+			if (result)
+			{
+				startFade();
+			}
+			else
+			{
+				errortextcount = 120;
+				(customLevelErrorText.graphic as Text).text = LevelData.errorMessage;
+			}
+			_copyPaste.text = "";
 		}
 		
 		private function ExecuteOnEntityArray(array:Array, func:Function):void

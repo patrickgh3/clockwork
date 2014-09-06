@@ -13,17 +13,53 @@ package
 		
 		/* actors holds most of the entities to be added to the world.
 		 * The other arrays are there to separate specific groups. */
-		public static var actors:Array = new Array();
-		public static var rickets:Array = new Array(); // added in the background.
-		public static var movingblocks:Array = new Array(); // added in the background, and reference given to player.
-		public static var locks:Array = new Array(); // 2D array, empty except for lock tiles. reference given to player.
-		public static var levelmask:Array = new Array(); // Array of ints. 0 = empty, 1 = solid, 2 = solid and lock. reference given to player.
+		public static var actors:Array;
+		public static var rickets:Array; // added in the background.
+		public static var movingblocks:Array; // added in the background, and reference given to player.
+		public static var locks:Array; // 2D array, empty except for lock tiles. reference given to player.
+		public static var levelmask:Array; // Array of ints. 0 = empty, 1 = solid, 2 = solid and lock. reference given to player.
 		public static var width:int;
 		public static var height:int;
 		
-		public static function init():void
+		public static const MIN_WIDTH:int = 15;
+		public static const MIN_HEIGHT:int = 15;
+		public static const MAX_WIDTH:int = 300;
+		public static const MAX_HEIGHT:int = 40;
+		
+		public static var errorMessage:String;
+		
+		public static function tryLoadCustomLevel(levelSource:String):Boolean
 		{
-			var xml:XML = FP.getXML(testlevel);
+			try
+			{
+				var xml:XML = new XML(levelSource);
+			}
+			catch (error:Error)
+			{
+				errorMessage =  "Invalid XML.\n" + error.message;
+				return false;
+			}
+			
+			// todo: check if the level is a valid Clockwork level.
+			
+			loadLevel(xml);
+			
+			return true;
+		}
+		
+		public static function loadStandardLevel():void
+		{
+			loadLevel(FP.getXML(testlevel));
+		}
+		
+		private static function loadLevel(xml:XML):void
+		{
+			actors = [];
+			rickets = [];
+			movingblocks = [];
+			locks = [];
+			levelmask = [];
+			
 			var node:XML;
 			width = xml.@width / 16;
 			height = xml.@height / 16;

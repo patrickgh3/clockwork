@@ -31,7 +31,6 @@ package
 		
 		override public function init():void
 		{
-			LevelData.init();
 			tw = new TitleWorld();
 			FP.world = tw;
 		}
