@@ -118,8 +118,8 @@ package
 			
 			super.update();
 			
-			FP.camera.x = Math.max(0, Math.min(LevelData.width * 16 - Main.width, player.x + player.width / 2 - Main.width / 2));
-			FP.camera.y = Math.max(0, Math.min(LevelData.height * 16 - Main.height, player.y + player.width / 2 - 16 - Main.height / 2));
+			FP.camera.x = Math.max(0.5, Math.min(LevelData.width * 16 - Main.width - 0.5, player.x + player.width / 2 - Main.width / 2));
+			FP.camera.y = Math.max(0.5, Math.min(LevelData.height * 16 - Main.height - 0.5, player.y + player.width / 2 - 16 - Main.height / 2));
 		}
 		
 		public function fadeOut(fadeAction:int):void

@@ -5,12 +5,12 @@
   <BackgroundColor A="255" R="53" G="38" B="70" />
   <GridColor A="255" R="255" G="255" B="255" />
   <LevelDefaultSize>
-    <Width>640</Width>
-    <Height>480</Height>
+    <Width>224</Width>
+    <Height>160</Height>
   </LevelDefaultSize>
   <LevelMinimumSize>
-    <Width>1</Width>
-    <Height>1</Height>
+    <Width>224</Width>
+    <Height>160</Height>
   </LevelMinimumSize>
   <LevelMaximumSize>
     <Width>10000</Width>

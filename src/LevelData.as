@@ -24,8 +24,8 @@ package
 		public static var errorMessage:String;
 		
 		// todo: find reasonable values for these
-		public static const MIN_WIDTH:int = 15;
-		public static const MIN_HEIGHT:int = 15;
+		public static const MIN_WIDTH:int = 14;
+		public static const MIN_HEIGHT:int = 10;
 		public static const MAX_WIDTH:int = 300;
 		public static const MAX_HEIGHT:int = 40;
 		public static const MAX_OBJECTS:int = 500;
