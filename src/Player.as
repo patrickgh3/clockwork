@@ -65,6 +65,14 @@ package
 				y--;
 			}
 			
+			// todo: fix awkward jumping and add switch
+			
+			// todo: fix end timer (also on same legacy switch)
+			
+			// todo: reset y velocity on respawn
+			
+			// todo: investigate issue where falling into pit before fade in is done causes glitched state.
+			
 			/* Movement */
 			// horizontal movement
 			for (var i:int = 0; i < Math.abs(velocity.x); i++)
@@ -170,33 +178,39 @@ package
 		
 		private function collidelevelmask():Boolean
 		{
-			var x1:int = int(x / 16);
-			var x2:int = int((x + width - 1) / 16);
-			var y1:int = int(y / 16);
-			var y2:int = int((y + height - 1) / 16);
-			if (x < 0) x1 = -1;
-			if (y < 0) y1 = -1;
+			var x1:int = Math.floor(x / 16);
+			var x2:int = Math.floor((x + width - 1) / 16);
+			var y1:int = Math.floor(y / 16);
+			var y2:int = Math.floor((y + height - 1) / 16);
+			
 				
-			return levelmask[x1][y1]
-				|| levelmask[x1][y2]
-				|| levelmask[x2][y1]
-				|| levelmask[x2][y2] ;
+			return getLevelMaskSafe(x1, y1)
+				|| getLevelMaskSafe(x1, y2)
+				|| getLevelMaskSafe(x2, y1)
+				|| getLevelMaskSafe(x2, y2);
 		}
 		
 		private function collideLock():Tile
 		{
-			var x1:int = int(x / 16);
-			var x2:int = int((x + width - 1) / 16);
-			var y1:int = int(y / 16);
-			var y2:int = int((y + height - 1) / 16);
-			if (x < 0) x1 = -1;
-			if (y < 0) y1 = -1;
+			var x1:int = Math.floor(x / 16);
+			var x2:int = Math.floor((x + width - 1) / 16);
+			var y1:int = Math.floor(y / 16);
+			var y2:int = Math.floor((y + height - 1) / 16);
 			
-			if (levelmask[x1][y1] == 2) return LevelData.locks[x1][y1]
-			else if (levelmask[x1][y2] == 2) return LevelData.locks[x1][y2];
-			else if (levelmask[x2][y1] == 2) return LevelData.locks[x2][y1];
-			else if (levelmask[x2][y2] == 2) return LevelData.locks[x2][y2];
+			if (getLevelMaskSafe(x1, y1) == 2) return LevelData.locks[x1][y1]
+			else if (getLevelMaskSafe(x1, y) == 2) return LevelData.locks[x1][y2];
+			else if (getLevelMaskSafe(x2, y1) == 2) return LevelData.locks[x2][y1];
+			else if (getLevelMaskSafe(x2, y2) == 2) return LevelData.locks[x2][y2];
 			else return null;
+		}
+		
+		private function getLevelMaskSafe(x:int, y:int):int
+		{
+			if (x < 0 || x >= levelmask.length || y < 0 || y >= levelmask[0].length)
+			{
+				return 0;
+			}
+			return levelmask[x][y];
 		}
 		
 		private function collidemovingblocks():MovingBlock
