@@ -42,7 +42,7 @@ package Entities
 			}
 			
 			// standard level (special case)
-			if (LevelData.width == 146)
+			if (LevelData.useOriginalMechanics)
 			{
 				startX = Main.width / 2 + 33;
 				scrollSpeed = 0.03;

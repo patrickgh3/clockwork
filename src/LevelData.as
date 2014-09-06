@@ -21,18 +21,22 @@ package
 		public static var levelmask:Array; // Array of ints. 0 = empty, 1 = solid, 2 = solid and lock. reference given to player.
 		public static var width:int;
 		public static var height:int;
+		public static var levelname:String;
+		public static var authorname:String;
 		public static var errorMessage:String;
+		public static var useOriginalMechanics:Boolean; // if set, use the original movement mechanics, clock scrolling, credits text.
 		
 		// todo: find reasonable values for these
 		public static const MIN_WIDTH:int = 14;
 		public static const MIN_HEIGHT:int = 10;
 		public static const MAX_WIDTH:int = 300;
-		public static const MAX_HEIGHT:int = 40;
+		public static const MAX_HEIGHT:int = 1000;
 		public static const MAX_OBJECTS:int = 500;
 		
 		public static function loadStandardLevel():void
 		{
 			loadLevel(FP.getXML(testlevel));
+			useOriginalMechanics = true;
 		}
 		
 		public static function tryLoadCustomLevel(levelSource:String):Boolean
@@ -53,6 +57,7 @@ package
 			}
 			
 			loadLevel(xml);
+			useOriginalMechanics = false;
 			return true;
 		}
 		
@@ -60,7 +65,9 @@ package
 		{
 			var width:int = xml.@width / 16;
 			var height:int = xml.@height / 16;
-			if (width as int == 0 || height as int == 0)
+			var levelname:String = xml.@levelname;
+			var authorname:String = xml.@authorname;
+			if (width == 0 || height == 0 || levelname == "" || authorname == "")
 			{
 				errorMessage = "Invalid Ogmo file.";
 				return false;
@@ -108,6 +115,7 @@ package
 			if (objectCount > MAX_OBJECTS)
 			{
 				errorMessage = "Too many tiles / entities (" + objectCount + "). Maximum " + MAX_OBJECTS + " allowed.";
+				return false;
 			}
 			
 			if (xml.Entities.PlayerStart.length() == 0)
@@ -131,6 +139,9 @@ package
 		
 		private static function loadLevel(xml:XML):void
 		{
+			levelname = xml.@levelname;
+			authorname = xml.@authorname;
+			
 			actors = [];
 			rickets = [];
 			movingblocks = [];

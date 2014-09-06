@@ -64,20 +64,27 @@ package Entities
 				}
 				else if (count == 420)
 				{
-					FP.world.add(new FadeText(Main.width / 2, 4, "Clockwork Cat", 16));
-					FP.world.add(new FadeText(Main.width / 2, 24, "a game by Patrick Traynor", 8));
-					FP.world.add(new FadeText(Main.width / 2, 34, "for Ludum Dare 27: 10 Seconds", 8));
-					FP.world.add(new FadeText(Main.width / 2, 44, "powered by Flashpunk and Ogmo", 8));
-					FP.world.add(new FadeText(Main.width / 2, 54, "Thanks for playing!", 8));
-					FP.world.add(new FadeText(Main.width / 2, 140, "Press T to return to title", 8));
-					GameWorld.endingTextShown = true;
+					if (LevelData.useOriginalMechanics)
+					{
+						FP.world.add(new FadeText(Main.width / 2, 4, "Clockwork Cat", 16));
+						FP.world.add(new FadeText(Main.width / 2, 24, "a game by Patrick Traynor", 8));
+						FP.world.add(new FadeText(Main.width / 2, 34, "for Ludum Dare 27: 10 Seconds", 8));
+						FP.world.add(new FadeText(Main.width / 2, 44, "powered by Flashpunk and Ogmo", 8));
+						FP.world.add(new FadeText(Main.width / 2, 54, "Thanks for playing!", 8));
+					}
+					else
+					{
+						FP.world.add(new FadeText(Main.width / 2, 14, LevelData.levelname, 16, true));
+						FP.world.add(new FadeText(Main.width / 2, 44, "a level by " + LevelData.authorname, 8, true));
+						FP.world.add(new FadeText(Main.width / 2, 54, "Congratz!", 8, true));
+					}
 					
 					var ticks:Number = (Number)(GameWorld.ticks);
 					var minutes:int = ticks / 3600;
 					ticks %= 3600;
 					var seconds:int = ticks / 60;
 					ticks %= 60;
-					var milliseconds:int = ticks;
+					var milliseconds:int = ticks * (LevelData.useOriginalMechanics ? 1 : 100 / FP.frameRate);
 					
 					var time:String = "Time: " + minutes + ":";
 					if (seconds < 10) time += "0";
@@ -85,6 +92,8 @@ package Entities
 					if (milliseconds < 10) time += "0";
 					time += milliseconds;
 					FP.world.add(new FadeText(Main.width / 2, 64, time, 8));
+					FP.world.add(new FadeText(Main.width / 2, 140, "Press T to return to title", 8, true));
+					GameWorld.endingTextShown = true;
 				}
 				count++;
 			}

@@ -24,7 +24,10 @@
     <Height>480</Height>
   </CameraSize>
   <ExportCameraPosition>false</ExportCameraPosition>
-  <LevelValueDefinitions />
+  <LevelValueDefinitions>
+    <ValueDefinition xsi:type="StringValueDefinition" Name="levelname" Default="Default name" MaxChars="20" MultiLine="false" />
+    <ValueDefinition xsi:type="StringValueDefinition" Name="authorname" Default="Default author name" MaxChars="30" MultiLine="false" />
+  </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="TileLayerDefinition">
       <Name>Tiles</Name>
