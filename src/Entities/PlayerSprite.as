@@ -32,6 +32,8 @@ package Entities
 		private var nojumpcount:int = nojumptime;
 		private const nojumptime:int = 15;
 		
+		public var allowUpdate:Boolean = false; // flag which nullifies update()'s effects when set. used in "new mechanics" to prevent the world from calling update(), as the Player calls it manually.
+		
 		public function PlayerSprite(p:Player) 
 		{
 			super();
@@ -39,10 +41,13 @@ package Entities
 			graphic = sprite = new Spritemap(src, 32, 20);
 			sfxStep = new Sfx(step);
 			sfxJump = new Sfx(jump);
+			allowUpdate = LevelData.useOriginalMechanics;
 		}
 		
-		override public function update():void
+		public override function update():void
 		{
+			if (!allowUpdate) return;
+			
 			if (player.frozen) return;
 			
 			if (player.velocity.y == 0 && lastyvel > 1) playstep();
@@ -58,7 +63,7 @@ package Entities
 			
 			if (nojumpcount < nojumptime) nojumpcount++;
 			
-			if (!player.isOnGround() && nojumpcount == nojumptime)
+			if (!player.isOnGround() && (nojumpcount == nojumptime || !LevelData.useOriginalMechanics))
 			{
 				sprite.setFrame(1, 0);
 				count = -1;

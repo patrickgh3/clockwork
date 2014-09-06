@@ -121,15 +121,31 @@ package
 				}
 				if (collision || (blockcollision && velocity.y < 0))
 				{
-					y -= diff;
+					if (LevelData.useOriginalMechanics)
+					{
+						y -= diff;
+					}
+					else
+					{
+						while (collision || (blockcollision && velocity.y < 0))
+						{
+							y -= diff * 0.05;
+							collision = collidelevelmask();
+							blockcollision = collidemovingblocks();
+						}
+					}
 					if (velocity.y > 0) onGround = true;
 					velocity.y = 0;
 				}
 			}
 			
 			if (!currentmovingblock && ((i != 0 && velocity.y != 0) || (i == 0 && !onGround))) onGround = false;
-			sprite.x = x - 12;
-			sprite.y = y - 8;
+			
+			if (LevelData.useOriginalMechanics)
+			{
+				sprite.x = x - 12;
+				sprite.y = y - 8;
+			}
 			
 			if (y > LevelData.height * 16 + 8 && !GameWorld.isFading)
 			{
@@ -140,6 +156,13 @@ package
 			
 			while (collidelevelmask()) y--; // pop the player up if he's stuck.
 			// This happens when standing on a horizontal moving block, and it pushes you into a wall.
+			
+			if (!LevelData.useOriginalMechanics)
+			{
+				sprite.allowUpdate = true;
+				sprite.update();
+				sprite.allowUpdate = false;
+			}
 			
 			/* Turning grip */
 			if (action && !turning && onGround)
