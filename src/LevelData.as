@@ -20,13 +20,19 @@ package
 		public static var levelmask:Array; // Array of ints. 0 = empty, 1 = solid, 2 = solid and lock. reference given to player.
 		public static var width:int;
 		public static var height:int;
+		public static var errorMessage:String;
 		
+		// todo: find reasonable values for these
 		public static const MIN_WIDTH:int = 15;
 		public static const MIN_HEIGHT:int = 15;
 		public static const MAX_WIDTH:int = 300;
 		public static const MAX_HEIGHT:int = 40;
+		public static const MAX_OBJECTS:int = 500;
 		
-		public static var errorMessage:String;
+		public static function loadStandardLevel():void
+		{
+			loadLevel(FP.getXML(testlevel));
+		}
 		
 		public static function tryLoadCustomLevel(levelSource:String):Boolean
 		{
@@ -36,20 +42,90 @@ package
 			}
 			catch (error:Error)
 			{
-				errorMessage =  "Invalid XML.\n" + error.message;
+				errorMessage = "Invalid XML.\n" + error.message;
 				return false;
 			}
 			
-			// todo: check if the level is a valid Clockwork level.
+			if (!validateLevel(xml))
+			{
+				return false;
+			}
 			
 			loadLevel(xml);
-			
 			return true;
 		}
 		
-		public static function loadStandardLevel():void
+		private static function validateLevel(xml:XML):Boolean
 		{
-			loadLevel(FP.getXML(testlevel));
+			var width:int = xml.@width / 16;
+			var height:int = xml.@height / 16;
+			if (width as int == 0 || height as int == 0)
+			{
+				errorMessage = "Invalid Ogmo file.";
+				return false;
+			}
+			if (xml.@width % 16 != 0 || xml.@height % 16 != 0)
+			{
+				errorMessage = "Level width or height not a multiple of 16."
+				return false;5
+			}
+			if (width < MIN_WIDTH || height < MIN_HEIGHT)
+			{
+				errorMessage = "Level too small (" + width + " x " + height + "). Minimum size is " + MIN_WIDTH + " x " + MIN_HEIGHT + ".";
+				return false;
+			}
+			// todo: maybe check number of tiles / entities instead of level size? or maybe problems with clock / camera?
+			if (width > MAX_WIDTH || height > MAX_HEIGHT)
+			{
+				errorMessage = "Level too big (" + width + " x " + height + "). Maximum size is " + MAX_WIDTH + " x " + MAX_HEIGHT + ".";
+				return false;
+			}
+			
+			var node:XML;
+			for each (node in xml.Tiles.tile)
+			{
+				if (node.@x < 0 || node.@x >= width * 16 || node.@y < 0 || node.@y > height * 16)
+				{
+					errorMessage = "Tile at " + node.@x + "," + node.@y + " is out of bounds.";
+					return false;
+				}
+				if (node.@tx < 0 || node.@tx > 3 || node.@ty != 0)
+				{
+					errorMessage = "Tile at " + node.@x + "," + node.@y + " has invalid tileset coords.";
+					return false;
+				}
+			}
+			for each (node in xml.Entities.child("*"))
+			{
+				if (node.@x < 0 || node.@x >= width * 16 || node.@y < 0 || node.@y >= height * 16)
+				{
+					errorMessage = "Entity at " + node.@x + "," + node.@y + " is out of bounds.";
+					return false;
+				}
+			}
+			var objectCount:int = xml.Tiles.tile.length() + xml.Entities.child("*").length;
+			if (objectCount > MAX_OBJECTS)
+			{
+				errorMessage = "Too many tiles / entities (" + objectCount + "). Maximum " + MAX_OBJECTS + " allowed.";
+			}
+			
+			if (xml.Entities.PlayerStart.length() == 0)
+			{
+				errorMessage = "Level has no start entity.";
+				return false;
+			}
+			if (xml.Entities.PlayerStart.length() > 1)
+			{
+				errorMessage = "Level has more than one start entity.";
+				return false;
+			}
+			if (xml.Entities.EndGrip.length() == 0)
+			{
+				errorMessage = "Level has no end grip entity.";
+				return false;
+			}
+			
+			return true;
 		}
 		
 		private static function loadLevel(xml:XML):void
