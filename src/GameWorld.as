@@ -95,7 +95,7 @@ package
 			}
 			
 			if (Input.check(net.flashpunk.utils.Key.T)
-				&& ((!player.frozen && (blackFade.graphic as Image).alpha == 0 && timedirection == time_forward && !inEndingCutscene) || endingTextShown))
+				&& ((!player.frozen && (blackFade.graphic as Image).alpha == 0 && timedirection == time_forward && !inEndingCutscene && ticks > 1) || endingTextShown))
 			{
 				fadeOut(fade_title);
 			}
