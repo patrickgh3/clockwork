@@ -39,6 +39,7 @@ package Entities
 				FP.world.remove(this);
 				image.alpha = 0;
 				count = 0;
+				GameWorld.isFading = false;
 			}
 		}
 		

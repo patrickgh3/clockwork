@@ -37,6 +37,8 @@ package
 		public static const fade_respawn:int = 1;
 		public static const fade_title:int = 2;
 		
+		public static var isFading:Boolean;
+		
 		private var clockcount:int = -1; // used when the clock strikes twelve
 		private const clocktime:int = 120;
 		
@@ -75,6 +77,7 @@ package
 			add(player);
 			add(playersprite);
 			add(blackFade);
+			isFading = true;
 			
 			sfxBell = new Sfx(bell);
 		}
@@ -96,7 +99,7 @@ package
 			}
 			
 			if (Input.check(net.flashpunk.utils.Key.T)
-				&& ((!player.frozen && (blackFade.graphic as Image).alpha == 0 && timedirection == time_forward && !inEndingCutscene && ticks > 1) || endingTextShown))
+				&& ((!player.frozen && !isFading && timedirection == time_forward && !inEndingCutscene) || endingTextShown))
 			{
 				fadeOut(fade_title);
 			}
@@ -125,6 +128,7 @@ package
 		
 		public function fadeOut(fadeAction:int):void
 		{
+			isFading = true;
 			add(blackFade);
 			remove(player);
 			player.frozen = true;
@@ -139,6 +143,7 @@ package
 				add(player);
 				player.x = spawnx;
 				player.y = spawny;
+				player.velocity.y = 0;
 				time = 0;
 				player.frozen = false;
 				player.haskey = false;

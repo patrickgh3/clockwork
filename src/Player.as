@@ -131,7 +131,7 @@ package
 			sprite.x = x - 12;
 			sprite.y = y - 8;
 			
-			if (y > LevelData.height * 16 + 8)
+			if (y > LevelData.height * 16 + 8 && !GameWorld.isFading)
 			{
 				(GameWorld)(FP.world).fadeOut(GameWorld.fade_respawn);
 				currentgrip = null;
