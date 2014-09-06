@@ -65,15 +65,6 @@ package
 				y--;
 			}
 			
-			// todo: fix awkward jumping and add switch
-			// related: if you jump up 1 block and jump off of it as soon as you can, the land sound doesn't play
-			
-			// todo: fix end timer (also on same legacy switch)
-			
-			// todo: reset y velocity on respawn
-			
-			// todo: investigate issue where falling into pit before fade in is done causes glitched state.
-			
 			/* Movement */
 			// horizontal movement
 			for (var i:int = 0; i < Math.abs(velocity.x); i++)
@@ -208,10 +199,10 @@ package
 			var y2:int = Math.floor((y + height - 1) / 16);
 			
 				
-			return getLevelMaskSafe(x1, y1)
-				|| getLevelMaskSafe(x1, y2)
-				|| getLevelMaskSafe(x2, y1)
-				|| getLevelMaskSafe(x2, y2);
+			return getLevelMaskSafe(x1, y1) != 0
+				|| getLevelMaskSafe(x1, y2) != 0
+				|| getLevelMaskSafe(x2, y1) != 0
+				|| getLevelMaskSafe(x2, y2) != 0;
 		}
 		
 		private function collideLock():Tile

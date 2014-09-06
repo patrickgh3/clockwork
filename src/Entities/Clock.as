@@ -16,11 +16,6 @@ package Entities
 		public static var scrollSpeed:Number;
 		public static var startX:Number;
 		
-		private static const clockwidth:int = 120;
-		private static const maxstartdist:int = 36; // standard 33
-		private static const maxscrollspeed:Number = 0.04; // standard 0.03
-		
-		
 		public function Clock() 
 		{
 			super(startX, 0);
@@ -31,17 +26,6 @@ package Entities
 		
 		public static function computePositions():void
 		{
-			// todo: clean all this up
-			
-			// no scroll (avoid rounding errors?)
-			if (LevelData.width == 14)
-			{
-				startX = Main.width / 2;
-				scrollSpeed = 0;
-				return;
-			}
-			
-			// standard level (special case)
 			if (LevelData.useOriginalMechanics)
 			{
 				startX = Main.width / 2 + 33;
@@ -49,27 +33,29 @@ package Entities
 				return;
 			}
 			
-			var extraTiles:int = LevelData.width - 14;
-			var playerPixelsMoved:int = extraTiles * 16;
-			var clockPixelsMovedIfFullRate:Number = playerPixelsMoved * maxscrollspeed;
-			if (clockPixelsMovedIfFullRate < maxstartdist * 2)
+			var extraPixels:int = (LevelData.width - 14) * 16;
+			var maxstartoffset:int = 36;
+			var maxscrollspeed:Number = 0.04;
 			
-			// level is shorter than "ideal". we move at the max scroll speed, but the clock starts at a smaller offset.
-			if (clockPixelsMovedIfFullRate < maxstartdist / maxscrollspeed)
+			// if the level isn't long enough for the clock to move the max allowed distance (even going as fast as it is allowed to),
+			// we move at the max allowed scroll speed, but start at a smaller offset.
+			if (extraPixels * maxscrollspeed < maxstartoffset * 2)
 			{
 				scrollSpeed = maxscrollspeed;
-				startX = Main.width / 2 + (playerPixelsMoved / 2) * maxscrollspeed;
+				startX = Main.width / 2 + (extraPixels / 2) * maxscrollspeed;
 				return;
 			}
 			
-			// level is longer than "ideal". we start at the max offset, but move at a slower speed.
-			startX = Main.width / 2 + maxstartdist;
-			scrollSpeed = (maxstartdist * 2) / playerPixelsMoved;
+			// if the level is too long for the clock to move at full speed and stay inside the max allowed distance (offset),
+			// we start at the max allowed offset, but move at a slower speed.
+			startX = Main.width / 2 + maxstartoffset;
+			scrollSpeed = (maxstartoffset * 2) / extraPixels;
 			
 			// oh god what am i doing it's 3 am and I can't believe this works
 			
 			// otter pops are tasty
 		}
+		
 	}
 
 }
