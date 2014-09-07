@@ -32,8 +32,8 @@ package
 		
 		public static function loadStandardLevel():void
 		{
-			loadLevel(FP.getXML(testlevel));
 			useOriginalMechanics = true;
+			loadLevel(FP.getXML(testlevel));
 		}
 		
 		public static function tryLoadCustomLevel(levelSource:String):Boolean
@@ -53,8 +53,8 @@ package
 				return false;
 			}
 			
-			loadLevel(xml);
 			useOriginalMechanics = false;
+			loadLevel(xml);
 			return true;
 		}
 		
@@ -186,7 +186,7 @@ package
 			
 			for each (node in xml.Entities.Key)
 			{
-				actors.push(new Key(node.@x, node.@y, node.@special));
+				actors.push(new Key(node.@x, node.@y));
 			}
 			
 			for each (node in xml.Entities.HintTrigger)

@@ -31,7 +31,7 @@ package Entities
 		private var velocity:Point = new Point();
 		private var grav:Number = 0.1;
 		
-		public function Key(x:int, y:int, special:int) 
+		public function Key(x:int, y:int) 
 		{
 			x += 4;
 			y += 11;
@@ -43,7 +43,7 @@ package Entities
 			sprite.setFrame(0);
 			width = 8;
 			height = 4;
-			this.physics = special;
+			this.physics = (LevelData.useOriginalMechanics && y == 123) ? 1 : 0; // a
 			startx = x;
 			starty = y;
 			sfx = new Sfx(sound);

@@ -16,6 +16,7 @@
     <Width>16000</Width>
     <Height>16000</Height>
   </LevelMaximumSize>
+  <Filename>C:\Users\Traynor Traynor\Documents\GitHub\clockwork\levels\clockwork.oep</Filename>
   <AngleMode>Radians</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -142,9 +143,7 @@
       <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
         <RectColor A="255" R="255" G="234" B="87" />
       </ImageDefinition>
-      <ValueDefinitions>
-        <ValueDefinition xsi:type="IntValueDefinition" Name="special" Default="0" Min="0" Max="1" ShowSlider="false" />
-      </ValueDefinitions>
+      <ValueDefinitions />
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
     </EntityDefinition>
     <EntityDefinition Name="Fish" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">

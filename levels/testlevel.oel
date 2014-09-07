@@ -254,16 +254,16 @@
     <MovingBlock id="6" x="736" y="176" xdistance="128" ydistance="0" ricketdirection="4" />
     <MovingBlock id="8" x="928" y="224" xdistance="0" ydistance="-128" ricketdirection="2" />
     <Grip id="11" x="1232" y="144" />
-    <Key id="12" x="1072" y="224" special="0" />
+    <Key id="12" x="1072" y="224" />
     <MovingBlock id="10" x="1264" y="128" xdistance="80" ydistance="0" ricketdirection="3" />
-    <Key id="14" x="1264" y="112" special="1" />
+    <Key id="14" x="1264" y="112" />
     <MovingBlock id="13" x="1584" y="208" xdistance="-96" ydistance="0" ricketdirection="4" />
     <Grip id="15" x="1616" y="208" />
-    <Key id="16" x="1648" y="192" special="0" />
+    <Key id="16" x="1648" y="192" />
     <Grip id="17" x="1664" y="144" />
     <Grip id="19" x="1424" y="144" />
     <Grip id="18" x="2080" y="144" />
-    <PlayerStart id="0" x="48" y="192" />
+    <PlayerStart id="0" x="960" y="112" />
     <HintTrigger id="21" x="48" y="192" width="16" height="16" text="Don't let the clock strike twelve!&#xD;Move with the arrow keys." />
     <HintTrigger id="20" x="128" y="192" width="16" height="16" text="Hold X to use your wrench." />
     <Grip id="23" x="1072" y="160" />
@@ -271,5 +271,6 @@
     <HintTrigger id="9" x="176" y="192" width="16" height="16" text="Use Z or up to jump." />
     <Fish id="22" x="992" y="240" />
     <EndGrip id="24" x="2240" y="208" />
+    <EndGrip id="25" x="96" y="192" />
   </Entities>
 </level>

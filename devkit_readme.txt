@@ -49,14 +49,6 @@ Tips / Other
 		
 		The game outputs helpful error messages of which requirements weren't satisfied.
 		
-<> Here are tips for certain entities:
-
-		HintTrigger - You can resize this guy if you want. Also, as for line breaks, Ogmo will generate them in standard Windows format (a carriage return character and a line feed character) shown as &#xD;&#xA; . But each of these characters is interpreted by the game as a separate line break. Open the level in a text editor and manually delete one of the two characters to avoid having an unwanted gap between lines.
-		
-		MovingBlock - xdistance and ydistance are the number of pixels (not tiles!) the block will move in that direction over the course of the clock ticking down. Each tile is 16 pixels. ricketdirection determines which direction the gear-toothed bar decoration will extend from the block. 1 - top, 2 - bottom, 3 - right, 4 - left.
-		
-		Key - "special" parameter is set to 1 if that key is the key that slides off the block in the standard level. The key's movement is hardcoded instead of dynamic, so unfortunately you can't use falling keys in levels. It probably wouldn't have been too hard to code key physics, but I think I decided at the time that would take too much brainpower.
-
 <> Ogmo can be quirky. Here are some tips for things that frustrated me a little: (some may have been fixed in later versions)
 
 		F1 - F5 toggle the tool windows quickly, in case you close them accidentally.
@@ -75,7 +67,23 @@ Tips / Other
 		
 		Save often!
 		
-<> Only the Newgrounds and Kongregate versions of the game have been updated to support custom levels.
+<> Documentation of attributes / fields:
+		
+		HintTrigger Entity - You can resize this guy if you want. Also, as for line breaks, Ogmo will generate them in standard Windows format (a carriage return character and a line feed character) shown as &#xD;&#xA; . But each of these characters is interpreted by the game as a separate line break. Open the level in a text editor and manually delete one of the two characters to avoid having an unwanted gap between lines.
+
+		MovingBlock Entity - xdistance and ydistance are the number of pixels (not tiles!) the block will move in that direction over the course of the clock ticking down. Each tile is 16 pixels. ricketdirection determines which direction the gear-toothed bar decoration will extend from the block. 1 - top, 2 - bottom, 3 - right, 4 - left.
+		
+		Key Entity - "special" parameter is set to 1 if that key is the key that slides off the block in the standard level. The key's movement is hardcoded instead of dynamic, so unfortunately you can't use falling keys in levels. It probably wouldn't have been too hard to code key physics, but I think I decided at the time that would take too much brainpower. TODO: update this
+		
+		Go to Level -> Level Properties to change the credits text at the end of the level.
+		
+<> Only the Newgrounds and Kongregate versions of the game have been updated to support custom levels. (unless other sites that hosted the game for some reason update it)
+
+<> Other changes in the update:
+
+		In addition to supporting custom levels, the game update also fixes various small problems the first version had. The most notable change is that the annoyances of the player physics are fixed! Hooray! Before, the game would sometimes not correctly register a jump right after landing, and it would take 1 or 2 frames to finish landing. This should be fixed. Other changes include the ability to press 'T' to return to the title screen, fixing the glitchy flash during fade transitions, and adding a lot of robustness to the game to handle the variance of custom levels.
+		
+		The player physics tweaks only apply to playing custom levels; when playing the standard level ('X' from title screen) the old physics are used. I did this to avoid obsoleting speedrun times.
 
 
 /-----/  /-----/  /-----/  /-----/  /-----/
