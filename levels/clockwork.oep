@@ -13,10 +13,9 @@
     <Height>160</Height>
   </LevelMinimumSize>
   <LevelMaximumSize>
-    <Width>10000</Width>
-    <Height>10000</Height>
+    <Width>16000</Width>
+    <Height>16000</Height>
   </LevelMaximumSize>
-  <Filename>C:\Users\Traynor Traynor\Documents\GitHub\clockwork\levels\clockwork.oep</Filename>
   <AngleMode>Radians</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
