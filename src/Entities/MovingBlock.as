@@ -48,12 +48,21 @@ package Entities
 				if (end.x > start.x) player.x = x + width + 1;
 				else if (end.x < start.x) player.x = x - player.width - 1;
 			}
+			// todo: push key
+			for each (var k:Entity in LevelData.keys)
+			{
+				if (ClockUtil.entityCollide(this, k))
+				{
+					if (end.x > start.x) k.x = x + width + 1;
+					else if (end.x < start.x) k.x = x - k.width - 1;
+				}
+			}
 		}
 		
 		public function getXSpeed():Number
 		{
 			var dir:Number = 1;
-			if (GameWorld.time == GameWorld.time_backward) dir = -1;
+			if (GameWorld.timedirection == GameWorld.time_backward) dir = -3;
 			if (GameWorld.time == 600 || GameWorld.time == 0) return 0;
 			return (end.x - start.x) / 600 * dir;
 		}

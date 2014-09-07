@@ -25,11 +25,12 @@ package Entities
 		
 		private var physics:int;
 		private var count:int = 0;
-		private var time1:int = 120;
-		private var time2:int = 7;
+		private const time1:int = 120;
+		private const time2:int = 7;
 		private var pushed:int = 0;
 		private var velocity:Point = new Point();
-		private var grav:Number = 0.1;
+		private const grav:Number = 0.1;
+		private var currentmovingblock:MovingBlock;
 		
 		public function Key(x:int, y:int) 
 		{
@@ -42,8 +43,8 @@ package Entities
 			sprite.y = -6;
 			sprite.setFrame(0);
 			width = 8;
-			height = 4;
-			this.physics = (LevelData.useOriginalMechanics && y == 123) ? 1 : 0; // a
+			height = 6;
+			this.physics = (LevelData.useOriginalMechanics && y == 123) ? 1 : 0;
 			startx = x;
 			starty = y;
 			sfx = new Sfx(sound);
@@ -97,20 +98,64 @@ package Entities
 					physics = 4;
 				}
 			}
+			
+			if (!LevelData.useOriginalMechanics)
+			{
+				// adapted from player movement
+				velocity.y += grav;
+				if (currentmovingblock)
+				{
+					y = currentmovingblock.y - 5;
+					velocity.y = 0;
+					x += currentmovingblock.getXSpeed();
+				}
+				else for (var i:int = 0; i < Math.abs(velocity.y); i++)
+				{
+					var diff:Number = Math.min(1, Math.abs(velocity.y) - i) * sign(velocity.y);
+					y += diff;
+					
+					var collision:Boolean = ClockUtil.collideLevelMask(this);
+					var blockcollision:MovingBlock = ClockUtil.collideMovingBlocks(this);
+					if (blockcollision && velocity.y > 0)
+					{
+						currentmovingblock = blockcollision;
+						x = (Number)((int)(x)) + (currentmovingblock.x - (Number)((int)(currentmovingblock.x)));
+						velocity.y = 0;
+					}
+					if (collision || (blockcollision && velocity.y < 0))
+					{
+						while (collision || (blockcollision && velocity.y < 0))
+						{
+							y -= diff * 0.05;
+							collision = ClockUtil.collideLevelMask(this);
+							blockcollision = ClockUtil.collideMovingBlocks(this);
+						}
+						velocity.y = 0;
+					}
+				}
+				
+				while (ClockUtil.collideLevelMask(this)) y--;
+			}
 		}
 		
 		public function reset():void
 		{
 			used = false;
 			sprite.alpha = 1;
+			y = starty;
+			x = startx;
+			velocity.y = 0;
+			currentmovingblock = null;
 			if (physics != 0)
 			{
 				physics = 1;
 				pushed = 0;
-				y = starty;
-				x = startx;
-				velocity.y = 0;
 			}
+		}
+		
+		private function sign(x:Number):Number
+		{
+			return x / Math.abs(x);
 		}
 		
 	}

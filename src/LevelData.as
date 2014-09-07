@@ -18,6 +18,7 @@ package
 		public static var rickets:Array; // list of Entities to add in the background.
 		public static var movingblocks:Array; // list of MovingBlocks.
 		public static var grips:Array; // list of Grips.
+		public static var keys:Array; // list of Keys.
 		public static var locks:Array; // 2D array, empty except for lock tiles (Tiles)
 		public static var levelmask:Array; // 2D Array of ints. 0 = empty, 1 = solid, 2 = solid and lock.
 		public static var width:int;
@@ -128,6 +129,7 @@ package
 			rickets = [];
 			movingblocks = [];
 			grips = [];
+			keys = [];
 			locks = [];
 			levelmask = [];
 			
@@ -186,7 +188,9 @@ package
 			
 			for each (node in xml.Entities.Key)
 			{
-				actors.push(new Key(node.@x, node.@y));
+				var k:Entity = new Key(node.@x, node.@y);
+				keys.push(k);
+				actors.push(k);
 			}
 			
 			for each (node in xml.Entities.HintTrigger)
