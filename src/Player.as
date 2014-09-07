@@ -17,8 +17,6 @@ package
 	{
 		public var velocity:Point = new Point();
 		private var onGround:Boolean = true;
-		private var levelmask:Array;
-		private var grips:Array;
 		private var movingblocks:Array;
 		public var turning:Boolean = false;
 		private var currentgrip:Grip;
@@ -31,14 +29,11 @@ package
 		private var runSpeed:Number = 1;
 		private var jumpSpeed:Number = 1.85;
 		
-		public function Player(x:int, y:int, grips:Array, movingblocks:Array) 
+		public function Player(x:int, y:int) 
 		{
 			super(x, y);
 			width = 9;
 			height = 12;
-			levelmask = LevelData.levelmask;
-			this.grips = grips;
-			this.movingblocks = movingblocks;
 		}
 		
 		override public function update():void
@@ -78,8 +73,8 @@ package
 					lock.unlock();
 				}
 				if (currentmovingblock) y -= 2;
-				var collision:Boolean = collidelevelmask();
-				var blockcollision:MovingBlock = collidemovingblocks();
+				var collision:Boolean = ClockUtil.collideLevelMask(this);
+				var blockcollision:MovingBlock = ClockUtil.collideMovingBlocks(this);
 				if (collision || blockcollision)
 				{
 					x -= diff;
@@ -101,8 +96,8 @@ package
 				diff = Math.min(1, Math.abs(velocity.y) - i) * sign(velocity.y);
 				y += diff;
 				
-				collision = collidelevelmask();
-				blockcollision = collidemovingblocks();
+				collision = ClockUtil.collideLevelMask(this);
+				blockcollision = ClockUtil.collideMovingBlocks(this);
 				if (blockcollision && velocity.y > 0)
 				{
 					onGround = true;
@@ -121,8 +116,8 @@ package
 						while (collision || (blockcollision && velocity.y < 0))
 						{
 							y -= diff * 0.05;
-							collision = collidelevelmask();
-							blockcollision = collidemovingblocks();
+							collision = ClockUtil.collideLevelMask(this);
+							blockcollision = ClockUtil.collideMovingBlocks(this);
 						}
 					}
 					if (velocity.y > 0) onGround = true;
@@ -145,7 +140,7 @@ package
 				currentmovingblock = null;
 			}
 			
-			while (collidelevelmask()) y--; // pop the player up if he's stuck.
+			while (ClockUtil.collideLevelMask(this)) y--; // pop the player up if he's stuck.
 			// This happens when standing on a horizontal moving block, and it pushes you into a wall.
 			
 			if (!LevelData.useOriginalMechanics)
@@ -158,9 +153,8 @@ package
 			/* Turning grip */
 			if (action && !turning && onGround)
 			{
-				for (i = 0; i < grips.length; i++)
+				for each (var g:Grip in LevelData.grips)
 				{
-					var g:Grip = grips[i];
 					if (!ClockUtil.entityCollide(this, g)) continue;
 					
 					turning = true;
@@ -191,20 +185,6 @@ package
 			}
 		}
 		
-		private function collidelevelmask():Boolean
-		{
-			var x1:int = Math.floor(x / 16);
-			var x2:int = Math.floor((x + width - 1) / 16);
-			var y1:int = Math.floor(y / 16);
-			var y2:int = Math.floor((y + height - 1) / 16);
-			
-				
-			return getLevelMaskSafe(x1, y1) != 0
-				|| getLevelMaskSafe(x1, y2) != 0
-				|| getLevelMaskSafe(x2, y1) != 0
-				|| getLevelMaskSafe(x2, y2) != 0;
-		}
-		
 		private function collideLock():Tile
 		{
 			var x1:int = Math.floor(x / 16);
@@ -212,29 +192,11 @@ package
 			var y1:int = Math.floor(y / 16);
 			var y2:int = Math.floor((y + height - 1) / 16);
 			
-			if (getLevelMaskSafe(x1, y1) == 2) return LevelData.locks[x1][y1]
-			else if (getLevelMaskSafe(x1, y) == 2) return LevelData.locks[x1][y2];
-			else if (getLevelMaskSafe(x2, y1) == 2) return LevelData.locks[x2][y1];
-			else if (getLevelMaskSafe(x2, y2) == 2) return LevelData.locks[x2][y2];
+			if (ClockUtil.getLevelMaskSafe(x1, y1) == 2) return LevelData.locks[x1][y1]
+			else if (ClockUtil.getLevelMaskSafe(x1, y) == 2) return LevelData.locks[x1][y2];
+			else if (ClockUtil.getLevelMaskSafe(x2, y1) == 2) return LevelData.locks[x2][y1];
+			else if (ClockUtil.getLevelMaskSafe(x2, y2) == 2) return LevelData.locks[x2][y2];
 			else return null;
-		}
-		
-		private function getLevelMaskSafe(x:int, y:int):int
-		{
-			if (x < 0 || x >= LevelData.width || y < 0 || y >= LevelData.height)
-			{
-				return 0;
-			}
-			return levelmask[x][y];
-		}
-		
-		private function collidemovingblocks():MovingBlock
-		{
-			for (var i:int = 0; i < movingblocks.length; i++)
-			{
-				if (ClockUtil.entityCollide(this, movingblocks[i])) return movingblocks[i];
-			}
-			return null;
 		}
 		
 		private function sign(x:Number):Number

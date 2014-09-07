@@ -15,20 +15,17 @@ package
 		/* actors holds most of the entities to be added to the world.
 		 * The other arrays are there to separate specific groups. */
 		public static var actors:Array;
-		public static var rickets:Array; // added in the background.
-		public static var movingblocks:Array; // added in the background, and reference given to player.
-		public static var locks:Array; // 2D array, empty except for lock tiles. reference given to player.
-		public static var levelmask:Array; // Array of ints. 0 = empty, 1 = solid, 2 = solid and lock. reference given to player.
+		public static var rickets:Array; // list of Entities to add in the background.
+		public static var movingblocks:Array; // list of MovingBlocks.
+		public static var grips:Array; // list of Grips.
+		public static var locks:Array; // 2D array, empty except for lock tiles (Tiles)
+		public static var levelmask:Array; // 2D Array of ints. 0 = empty, 1 = solid, 2 = solid and lock.
 		public static var width:int;
 		public static var height:int;
 		public static var levelname:String;
 		public static var authorname:String;
 		public static var errorMessage:String;
-		public static var useOriginalMechanics:Boolean; // if set, use the original movement mechanics, clock scrolling, credits text.
-		
-		// todo: find reasonable values for these
-		public static const MIN_WIDTH:int = 14;
-		public static const MIN_HEIGHT:int = 10;
+		public static var useOriginalMechanics:Boolean; // if set, use the original player physics, clock scrolling, credits text, etc.
 		
 		public static function loadStandardLevel():void
 		{
@@ -74,9 +71,9 @@ package
 				errorMessage = "Level width or height not a multiple of 16."
 				return false;5
 			}
-			if (width < MIN_WIDTH || height < MIN_HEIGHT)
+			if (width < 14 || height < 10)
 			{
-				errorMessage = "Level too small (" + width + " x " + height + "). Minimum size is " + MIN_WIDTH + " x " + MIN_HEIGHT + ".";
+				errorMessage = "Level too small (" + width + " x " + height + "). Minimum size is 14 x 10.";
 				return false;
 			}
 			
@@ -130,6 +127,7 @@ package
 			actors = [];
 			rickets = [];
 			movingblocks = [];
+			grips = [];
 			locks = [];
 			levelmask = [];
 			
@@ -174,7 +172,9 @@ package
 			/* Load entities from file. */
 			for each (node in xml.Entities.Grip)
 			{
-				actors.push(new Grip(node.@x, node.@y));
+				var g:Entity = new Grip(node.@x, node.@y);
+				grips.push(g);
+				actors.push(g);
 			}
 			
 			for each (node in xml.Entities.MovingBlock)

@@ -61,17 +61,15 @@ package
 			Clock.computePositions();
 			add(new Clock());
 			add(new ClockHand());
-			for (i = 0; i < LevelData.rickets.length; i++) add(LevelData.rickets[i]);
-			for (i = 0; i < LevelData.movingblocks.length; i++) add(LevelData.movingblocks[i]);
+			for each (var r:Entity in LevelData.rickets) add(r);
+			for each (var b:Entity in LevelData.movingblocks) add(b);
 			
 			/* Foreground entities */
-			var grips:Array = new Array();
-			for (i = 0; i < LevelData.actors.length; i++)
+			for each (var e:Entity in LevelData.actors)
 			{
-				add(LevelData.actors[i]);
-				if (LevelData.actors[i] is Grip) grips.push(LevelData.actors[i]);
+				add(e);
 			}
-			player = new Player(spawnx, spawny, grips, LevelData.movingblocks);
+			player = new Player(spawnx, spawny);
 			playersprite = new PlayerSprite(player);
 			blackFade = new BlackFade(BlackFade.fadeTime);
 			add(player);
@@ -150,11 +148,11 @@ package
 				player.frozen = false;
 				player.haskey = false;
 				timedirection = time_forward;
-				for (var i:int = 0; i < LevelData.actors.length; i++)
+				for each (var e:Entity in LevelData.actors)
 				{
-					if (LevelData.actors[i] is Tile) LevelData.actors[i].lock();
-					else if (LevelData.actors[i] is Entities.Key) LevelData.actors[i].reset();
-					else if (LevelData.actors[i] is Fish) LevelData.actors[i].reset();
+					if (e is Tile) (e as Tile).lock();
+					else if (e is Entities.Key) (e as Entities.Key).reset();
+					else if (e is Fish) (e as Fish).reset();
 					
 				}
 			}
