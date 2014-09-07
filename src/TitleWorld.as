@@ -62,7 +62,6 @@ package
 			customLevelEntities.push(customLevelErrorText);
 			
 			purplefade = new Entity(0, 0, Image.createRect(Main.width, Main.height, Main.skycolor));
-			(Image)(purplefade.graphic).alpha = 0;
 			add(purplefade);
 			blackfade = new Entity(0, 0, Image.createRect(Main.width, Main.height, 0x000000));
 			(Image)(blackfade.graphic).alpha = 0;

@@ -18,7 +18,6 @@ package Entities
 			super(0, 0);
 			graphic = image = Image.createRect(Main.width, Main.height, 0x000000);
 			graphic.scrollX = graphic.scrollY = 0;
-			image.alpha = 0;
 			this.count = count;
 		}
 		
