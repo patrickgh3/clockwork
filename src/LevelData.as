@@ -29,9 +29,6 @@ package
 		// todo: find reasonable values for these
 		public static const MIN_WIDTH:int = 14;
 		public static const MIN_HEIGHT:int = 10;
-		public static const MAX_WIDTH:int = 300;
-		public static const MAX_HEIGHT:int = 1000;
-		public static const MAX_OBJECTS:int = 500;
 		
 		public static function loadStandardLevel():void
 		{
@@ -82,12 +79,6 @@ package
 				errorMessage = "Level too small (" + width + " x " + height + "). Minimum size is " + MIN_WIDTH + " x " + MIN_HEIGHT + ".";
 				return false;
 			}
-			// todo: maybe check number of tiles / entities instead of level size? or maybe problems with clock / camera?
-			if (width > MAX_WIDTH || height > MAX_HEIGHT)
-			{
-				errorMessage = "Level too big (" + width + " x " + height + "). Maximum size is " + MAX_WIDTH + " x " + MAX_HEIGHT + ".";
-				return false;
-			}
 			
 			var node:XML;
 			for each (node in xml.Tiles.tile)
@@ -110,12 +101,6 @@ package
 					errorMessage = "Entity at " + node.@x + "," + node.@y + " is out of bounds.";
 					return false;
 				}
-			}
-			var objectCount:int = xml.Tiles.tile.length() + xml.Entities.child("*").length;
-			if (objectCount > MAX_OBJECTS)
-			{
-				errorMessage = "Too many tiles / entities (" + objectCount + "). Maximum " + MAX_OBJECTS + " allowed.";
-				return false;
 			}
 			
 			if (xml.Entities.PlayerStart.length() == 0)

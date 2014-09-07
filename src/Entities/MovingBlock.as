@@ -36,8 +36,8 @@ package Entities
 		{
 			if (player == null) player = (GameWorld)(FP.world).player;
 			
-			x = start.x + (GameWorld.time / 600) * (end.x - start.x);
-			y = start.y + (GameWorld.time / 600) * (end.y - start.y);
+			x = start.x + GameWorld.timeFraction * (end.x - start.x);
+			y = start.y + GameWorld.timeFraction * (end.y - start.y);
 			
 			ricket.x = x;
 			ricket.y = y;

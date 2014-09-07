@@ -27,7 +27,7 @@ package
 		public static var inEndingCutscene:Boolean = false;
 		
 		public static var time:int = 0;
-		public static const endtime:int = 600;
+		public static var timeFraction:Number;
 		public static var timedirection:int = time_forward;
 		public static const time_forward:int = 1;
 		public static const time_backward:int = 2;
@@ -119,6 +119,8 @@ package
 				time -= 3;
 				if (time < 3) time = 0;
 			}
+			
+			timeFraction = time / 600;
 			
 			super.update();
 			
